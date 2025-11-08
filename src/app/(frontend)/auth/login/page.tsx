@@ -1,17 +1,45 @@
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/shadcnui/card";
 import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-	title: "Nextjs Starter Frontend",
-	description: "Production grade Next.js starter template",
+	title: "Login | Wallpaper App",
+	description: "Login page of Wallpaper App",
 };
 
 const page = () => {
 	return (
-		<section className="grid h-[90dvh] place-items-center">
-			<div className="space-y-2 text-center">
-				<h1 className="text-5xl font-semibold">Nextjs Starter Frontend</h1>
-				<h2 className="text-3xl">Production grade Next.js starter template</h2>
-			</div>
+		<section className="grid h-[85dvh] place-items-center">
+			<Card className="w-sm">
+				<CardHeader className="gap-3">
+					<CardTitle className="text-center text-3xl font-semibold">
+						Welcome back
+					</CardTitle>
+
+					<CardDescription className="text-center text-lg leading-5">
+						Enter your email below to login to your account
+					</CardDescription>
+				</CardHeader>
+
+				<CardContent>{/* <LoginForm /> */}</CardContent>
+
+				<CardFooter className="justify-center">
+					Don&apos;t have an account?
+					<Link
+						href={"/auth/register"}
+						className="mx-1 text-blue-600 underline">
+						Create
+					</Link>
+					now
+				</CardFooter>
+			</Card>
 		</section>
 	);
 };

@@ -1,20 +1,26 @@
 "use client";
 
+import userSignIn from "@/hooks/userSignIn";
 import { LoginType } from "@/lib/types";
 import { loginSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, LockIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const LoginForm = () => {
+	const { replace } = useRouter();
+
 	const {
 		handleSubmit,
 		control,
 		formState: { isSubmitting },
+		reset,
 	} = useForm({
 		resolver: zodResolver(loginSchema),
 		defaultValues: {
@@ -26,7 +32,21 @@ const LoginForm = () => {
 	});
 
 	const loginHandeler = async (lData: LoginType) => {
+		const { isSuccess, message } = await userSignIn(lData);
+
 		await new Promise((r) => setTimeout(r, 1500));
+
+		if (!isSuccess) {
+			toast.error(message);
+		}
+
+		if (isSuccess) {
+			toast.success(message);
+
+			reset();
+
+			replace(`/studio`);
+		}
 
 		console.log(lData);
 	};

@@ -1,3 +1,5 @@
+import Header from "@/components/Header/PublicHeader/Header";
+
 type FrontendLayoutProps = {
 	children: React.ReactNode;
 };
@@ -5,7 +7,7 @@ type FrontendLayoutProps = {
 const FrontendLayout = ({ children }: FrontendLayoutProps) => {
 	return (
 		<>
-			{/* <Header /> */}
+			<Header />
 
 			<main className="mx-auto max-w-7xl px-6 py-3">{children}</main>
 		</>

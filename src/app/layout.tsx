@@ -1,4 +1,3 @@
-import Header from "@/components/Header/PublicHeader/Header";
 import ThemeProvider from "@/components/Providers/ThemeProvider";
 import "./globals.css";
 
@@ -16,9 +15,7 @@ const RootLayout = ({ children }: Readonly<RootLayoutProps>) => {
 					attribute={"class"}
 					defaultTheme="dark"
 					enableSystem={false}>
-					<Header />
-
-					<main className="mx-auto max-w-7xl px-6 py-3">{children}</main>
+					{children}
 				</ThemeProvider>
 			</body>
 		</html>

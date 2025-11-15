@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.552.0",
+    "nanoid": "^5.1.6",
     "next": "^16.0.1",
     "next-themes": "^0.4.6",
     "react": "^19.2.0",
@@ -31,6 +32,7 @@
     "react-toastify": "^11.0.5",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.3.1",
+    "use-file-picker": "^2.1.4",
     "zod": "^4.1.12"
   },
   "devDependencies": {

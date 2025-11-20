@@ -11,7 +11,7 @@ const Header = () => {
 					<h1
 						className="text-2xl font-semibold"
 						aria-label="App Name">
-						NST App
+						DripWall 🫠
 					</h1>
 				</Link>
 

@@ -69,3 +69,11 @@ model Verification {
 
   @@map("verification")
 }
+
+model Wallpaper {
+  id        String   @id @default(uuid())
+  category  String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+}

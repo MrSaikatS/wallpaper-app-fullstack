@@ -1,6 +1,7 @@
 "use client";
 
 import createWallpaper from "@/hooks/action/createWallpaper";
+import { authClient } from "@/lib/betterAuth/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, LoaderIcon } from "lucide-react";
 import Image from "next/image";
@@ -17,7 +18,7 @@ import { Input } from "../shadcnui/input";
 const WallpaperForm = () => {
 	const [isFile, setIsFile] = useState(false);
 
-	const { openFilePicker, filesContent,plainFiles } = useFilePicker({
+	const { openFilePicker, filesContent, plainFiles } = useFilePicker({
 		readAs: "DataURL",
 		accept: "image/*",
 		multiple: false,
@@ -52,20 +53,32 @@ const WallpaperForm = () => {
 	const categoryHandeler = async ({
 		category,
 	}: z.infer<typeof categorySchema>) => {
+		const { data } = await authClient.getSession();
+
+		if (data === null) {
+			return;
+		}
+
+		const {
+			user: { id },
+		} = data;
+
 		await new Promise((r) => setTimeout(r, 1500));
- const {isSuccess,message}=await createWallpaper(category,plainFiles[0])
+		const { isSuccess, message } = await createWallpaper(
+			category,
+			plainFiles[0],
+			id,
+		);
 
- if (!isSuccess) {
-	toast.error(message)
- }
+		if (!isSuccess) {
+			toast.error(message);
+		}
 
-	if (isSuccess) {
-	toast.success(message)
-
- }	
+		if (isSuccess) {
+			toast.success(message);
+		}
 	};
 
-	
 	return (
 		<div className="grid gap-4">
 			{!isFile && (

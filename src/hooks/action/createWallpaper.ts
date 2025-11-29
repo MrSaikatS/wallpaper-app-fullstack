@@ -5,7 +5,11 @@ import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 
-const createWallpaper = async (category: string, filesContent: File) => {
+const createWallpaper = async (
+	category: string,
+	filesContent: File,
+	id: string,
+) => {
 	try {
 		const imgArrayBuffer = await filesContent.arrayBuffer();
 
@@ -26,6 +30,7 @@ const createWallpaper = async (category: string, filesContent: File) => {
 			data: {
 				category,
 				image: imageName,
+				userId: id,
 			},
 		});
 

@@ -1,10 +1,12 @@
 "use client";
 
+import createWallpaper from "@/hooks/action/createWallpaper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, LoaderIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
 import z from "zod";
@@ -13,9 +15,9 @@ import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const WallpaperForm = () => {
-	const [isFile, setIsFile] = useState<boolean>(false);
+	const [isFile, setIsFile] = useState(false);
 
-	const { openFilePicker, filesContent } = useFilePicker({
+	const { openFilePicker, filesContent,plainFiles } = useFilePicker({
 		readAs: "DataURL",
 		accept: "image/*",
 		multiple: false,
@@ -51,9 +53,19 @@ const WallpaperForm = () => {
 		category,
 	}: z.infer<typeof categorySchema>) => {
 		await new Promise((r) => setTimeout(r, 1500));
+ const {isSuccess,message}=await createWallpaper(category,plainFiles[0])
 
-		console.log(category, filesContent[0]);
+ if (!isSuccess) {
+	toast.error(message)
+ }
+
+	if (isSuccess) {
+	toast.success(message)
+
+ }	
 	};
+
+	
 	return (
 		<div className="grid gap-4">
 			{!isFile && (

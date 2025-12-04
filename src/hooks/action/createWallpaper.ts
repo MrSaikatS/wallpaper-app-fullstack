@@ -17,8 +17,8 @@ const createWallpaper = async (
 
 		await sharp(imgArrayBuffer)
 			.resize({
-				width: 240,
-				height: 240,
+				width: 640,
+				height: 360,
 			})
 			.jpeg({
 				quality: 87,

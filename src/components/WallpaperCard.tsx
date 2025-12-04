@@ -1,5 +1,6 @@
 "use client";
 
+import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
@@ -14,20 +15,25 @@ type WallpaperCardProp = {
 	};
 };
 
-const WallpaperCard = ({ wallpaper }: WallpaperCardProp) => {
+const WallpaperCard = ({
+	wallpaper: { image, category },
+}: WallpaperCardProp) => {
+	// const pathname = usePathname();
+
 	return (
 		<>
-			<Card className="w-2xl">
+			<Card className="">
 				<CardContent>
 					<div className="relative">
 						<Image
 							alt=""
-							src={"https://placehold.co/1920x1080"}
-							height={440}
+							src={`/upload/${image}`}
+							height={360}
 							width={640}
+							className="h-[338px] w-[600px]"
 						/>
 
-						<div className="absolute right-0 bottom-0 left-0 flex w-full justify-between">
+						<div className="border-foreground/50 bg-foreground/25 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
 							<div className="flex gap-3">
 								<div className="">
 									<Image
@@ -38,18 +44,22 @@ const WallpaperCard = ({ wallpaper }: WallpaperCardProp) => {
 										className="rounded-full border-4 border-amber-500"
 									/>
 								</div>
-								<div className="flex gap-3 text-black">
+								<div className="text-background flex gap-3">
 									<div className="">
 										<div className="">User Full Name</div>
-										<div className="font-semibold"> #Nature</div>
+										<div className="font-semibold">#{category}</div>
 									</div>
-									<div>Just now</div>
+									<div>{}</div>
 								</div>
 							</div>
 							<div className="">
 								<Button>Download</Button>
 							</div>
 						</div>
+
+						<Button className="absolute top-0 right-0 z-50 mt-2 mr-2 bg-red-600 text-white">
+							<Trash2Icon /> Delete
+						</Button>
 					</div>
 				</CardContent>
 			</Card>

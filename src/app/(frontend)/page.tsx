@@ -8,14 +8,18 @@ export const metadata: Metadata = {
 };
 
 const page = async () => {
-	const allWallpapers = await prisma.wallpaper.findMany();
+	const allWallpapers = await prisma.wallpaper.findMany({
+		include: {
+			user: true,
+		},
+	});
 
 	return (
 		<section className="grid grid-cols-2 place-items-center gap-4">
 			{allWallpapers?.map((data) => (
 				<WallpaperCard
-					wallpaper={data}
 					key={data.id}
+					wallpaper={data}
 				/>
 			))}
 		</section>

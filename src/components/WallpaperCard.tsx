@@ -2,21 +2,20 @@
 
 import { Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import { Prisma } from "../../generated/prisma/client";
 import { Button } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
 type WallpaperCardProp = {
-	wallpaper: {
-		image: string;
-		id: string;
-		category: string;
-		createdAt: Date;
-		updatedAt: Date;
-	};
+	wallpaper: Prisma.WallpaperGetPayload<{
+		include: {
+			user: true;
+		};
+	}>;
 };
 
 const WallpaperCard = ({
-	wallpaper: { image, category },
+	wallpaper: { image, category, user },
 }: WallpaperCardProp) => {
 	// const pathname = usePathname();
 
@@ -37,7 +36,7 @@ const WallpaperCard = ({
 							<div className="flex gap-3">
 								<div className="">
 									<Image
-										src={"https://placehold.co/50x50"}
+										src={`/upload/${user.image}`}
 										alt=""
 										height={50}
 										width={50}
@@ -49,11 +48,17 @@ const WallpaperCard = ({
 										<div className="">User Full Name</div>
 										<div className="font-semibold">#{category}</div>
 									</div>
-									<div>{}</div>
+									<div>19 min ago</div>
 								</div>
 							</div>
 							<div className="">
-								<Button>Download</Button>
+								<Button asChild>
+									<a
+										href={`upload/${image}`}
+										download={true}>
+										Download
+									</a>
+								</Button>
 							</div>
 						</div>
 

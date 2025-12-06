@@ -5,6 +5,7 @@ import { authClient } from "@/lib/betterAuth/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, LoaderIcon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -17,6 +18,8 @@ import { Input } from "../shadcnui/input";
 
 const WallpaperForm = () => {
 	const [isFile, setIsFile] = useState(false);
+
+	const { push } = useRouter();
 
 	const { openFilePicker, filesContent, plainFiles } = useFilePicker({
 		readAs: "DataURL",
@@ -76,6 +79,7 @@ const WallpaperForm = () => {
 
 		if (isSuccess) {
 			toast.success(message);
+			push("/studio");
 		}
 	};
 

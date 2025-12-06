@@ -23,6 +23,9 @@ const page = async () => {
 		where: {
 			userId: session.user.id,
 		},
+		include: {
+			user: true,
+		},
 	});
 
 	return (

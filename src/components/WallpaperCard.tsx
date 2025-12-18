@@ -4,6 +4,7 @@ import deleteWallpaper from "@/hooks/action/deleteWallpaper";
 import { formatDistanceToNow } from "date-fns";
 import { Loader2Icon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Prisma } from "../../generated/prisma/client";
@@ -51,7 +52,9 @@ const WallpaperCard = ({
 
 					<div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
 						<div className="flex gap-3">
-							<div className="">
+							<Link
+								href={`/${user.id}`}
+								className="">
 								<Image
 									src={`/upload/${user.image}`}
 									alt=""
@@ -59,7 +62,7 @@ const WallpaperCard = ({
 									width={50}
 									className="rounded-full border-4 border-amber-500"
 								/>
-							</div>
+							</Link>
 							<div className="text-foreground flex gap-3">
 								<div className="">
 									<div className="">{user.name}</div>

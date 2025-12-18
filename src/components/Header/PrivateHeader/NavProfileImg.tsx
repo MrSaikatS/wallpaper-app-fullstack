@@ -16,7 +16,7 @@ const NavProfileImg = async () => {
 
 	return (
 		<Avatar className="ring-primary ring-4">
-			<AvatarImage src={`/upload/${image}`} />
+			<AvatarImage src={`/upload/avatar/${image}`} />
 			<AvatarFallback>{charactersArray.join("")}</AvatarFallback>
 		</Avatar>
 	);

@@ -63,7 +63,9 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 				<div className="grid place-items-center">
 					{!isFile && (
 						<Image
-							src={imgId ? `/upload/${imgId}` : `/upload/avatar.png`}
+							src={
+								imgId ? `/upload/avatar/${imgId}` : `/upload/avatar/avatar.png`
+							}
 							alt={imgId ?? ""}
 							width={240}
 							height={240}

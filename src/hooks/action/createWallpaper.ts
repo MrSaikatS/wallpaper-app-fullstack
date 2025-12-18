@@ -24,7 +24,7 @@ const createWallpaper = async (
 				quality: 87,
 				mozjpeg: true,
 			})
-			.toFile(`./public/upload/${imageName}`);
+			.toFile(`./public/upload/wallpaper/${imageName}`);
 
 		await prisma.wallpaper.create({
 			data: {

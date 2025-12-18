@@ -44,7 +44,7 @@ const WallpaperCard = ({
 				<div className="relative">
 					<Image
 						alt=""
-						src={`/upload/${image}`}
+						src={`/upload/wallpaper/${image}`}
 						height={360}
 						width={640}
 						className="h-[338px] w-[600px]"
@@ -56,7 +56,7 @@ const WallpaperCard = ({
 								href={`/${user.id}`}
 								className="">
 								<Image
-									src={`/upload/${user.image}`}
+									src={`/upload/avatar/${user.image}`}
 									alt=""
 									height={50}
 									width={50}
@@ -79,7 +79,7 @@ const WallpaperCard = ({
 						<div className="">
 							<Button asChild>
 								<a
-									href={`/upload/${image}`}
+									href={`/upload/wallpaper/${image}`}
 									download>
 									Download
 								</a>

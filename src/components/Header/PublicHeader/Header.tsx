@@ -1,5 +1,6 @@
 import Link from "next/link";
 import ThemeToggleButton from "../../ThemeToggleButton";
+import AuthNavLink from "./AuthNavLink";
 
 const Header = () => {
 	return (
@@ -16,7 +17,13 @@ const Header = () => {
 				</Link>
 
 				<nav className="flex items-center gap-4">
-					<Link href={"/"}>Home</Link>
+					{/* <Link href={"/"}>
+						<HomeIcon />
+					</Link> */}
+
+					{/* <div className=""> */}
+					<AuthNavLink />
+					{/* </div> */}
 
 					<ThemeToggleButton />
 				</nav>

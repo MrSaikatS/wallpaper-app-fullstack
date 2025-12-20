@@ -13,7 +13,7 @@ const updateAvatar = async (imgFile: File) => {
 		const { image } = await authUserServer();
 
 		if (image !== "avatar.png") {
-			await rm(`./public/upload/${image}`);
+			await rm(`./public/upload/avatar/${image}`);
 		}
 
 		const imgArrayBuffer = await imgFile.arrayBuffer();
@@ -29,7 +29,7 @@ const updateAvatar = async (imgFile: File) => {
 				quality: 87,
 				mozjpeg: true,
 			})
-			.toFile(`./public/upload/${imageName}`);
+			.toFile(`./public/upload/avatar/${imageName}`);
 
 		await auth.api.updateUser({
 			body: {

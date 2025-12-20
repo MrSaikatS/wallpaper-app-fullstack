@@ -10,7 +10,7 @@ const Header = () => {
 			className="border-b shadow"
 			aria-label="app-header">
 			<div className="container mx-auto flex items-center justify-between px-6 py-3">
-				<Link href={"/studio"}>
+				<Link href={"/"}>
 					<h1
 						className="text-2xl font-semibold"
 						aria-label="App Name">

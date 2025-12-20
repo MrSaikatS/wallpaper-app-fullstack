@@ -23,7 +23,7 @@ const ProfileAvatarImage = () => {
 	if (data != null) {
 		return (
 			<Image
-				src={`/upload/${data.user.image}`}
+				src={`/upload/avatar/${data.user.image}`}
 				alt="Avatar Image"
 				width={240}
 				height={240}

@@ -98,7 +98,7 @@ const WallpaperCard = ({
 								</>
 							) : (
 								<>
-									<Trash2Icon /> Delete
+									<Trash2Icon className="stroke-2" />
 								</>
 							)}
 						</Button>

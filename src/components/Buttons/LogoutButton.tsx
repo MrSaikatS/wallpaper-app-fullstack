@@ -13,6 +13,7 @@ const LogoutButton = () => {
 
 	const logoutHandler = async () => {
 		setLoading(true);
+		await new Promise((r) => setTimeout(r, 1500));
 
 		try {
 			const { error } = await authClient.signOut();

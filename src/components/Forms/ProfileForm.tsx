@@ -44,7 +44,6 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
 		if (isSuccess) {
 			toast.success(message);
 		}
-		console.log(name);
 	};
 
 	return (

@@ -47,8 +47,6 @@ const LoginForm = () => {
 
 			replace(`/studio`);
 		}
-
-		console.log(lData);
 	};
 
 	return (

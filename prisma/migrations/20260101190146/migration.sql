@@ -53,12 +53,20 @@ CREATE TABLE "verification" (
 -- CreateTable
 CREATE TABLE "Wallpaper" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "category" TEXT NOT NULL,
     "image" TEXT NOT NULL,
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "userId" TEXT NOT NULL,
-    CONSTRAINT "Wallpaper_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "categoryCategoryId" TEXT NOT NULL,
+    CONSTRAINT "Wallpaper_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "Wallpaper_categoryCategoryId_fkey" FOREIGN KEY ("categoryCategoryId") REFERENCES "Category" ("categoryId") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "Category" (
+    "categoryId" TEXT NOT NULL PRIMARY KEY,
+    "categoryName" TEXT NOT NULL,
+    "categorySlug" TEXT NOT NULL
 );
 
 -- CreateIndex
@@ -66,3 +74,6 @@ CREATE UNIQUE INDEX "user_email_key" ON "user"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "session_token_key" ON "session"("token");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Category_categorySlug_key" ON "Category"("categorySlug");

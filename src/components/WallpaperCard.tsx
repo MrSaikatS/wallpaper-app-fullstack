@@ -15,12 +15,13 @@ type WallpaperCardProp = {
 	wallpaper: Prisma.WallpaperGetPayload<{
 		include: {
 			user: true;
+			category: true;
 		};
 	}>;
 };
 
 const WallpaperCard = ({
-	wallpaper: { image, category, user, createdAt, id },
+	wallpaper: { image, user, createdAt, id, category },
 }: WallpaperCardProp) => {
 	const pathname = usePathname();
 
@@ -47,27 +48,27 @@ const WallpaperCard = ({
 						src={`/upload/wallpaper/${image}`}
 						height={360}
 						width={640}
-						className="h-[338px] w-[600px]"
+						className="h-84.5 w-150"
 					/>
 
 					<div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
 						<div className="flex gap-3">
-							<Link
-								href={`/${user.id}`}
-								className="">
+							<Link href={`/${user.id}`}>
 								<Image
 									src={`/upload/avatar/${user.image}`}
-									alt=""
+									alt="userImg"
 									height={50}
 									width={50}
 									className="rounded-full border-4 border-amber-500"
 								/>
 							</Link>
+
 							<div className="text-foreground flex gap-3">
 								<div className="">
 									<div className="">{user.name}</div>
-									<div className="font-semibold">#{category}</div>
+									<div className="font-semibold">#{category.categoryName}</div>
 								</div>
+
 								<div>
 									{formatDistanceToNow(new Date(createdAt), {
 										addSuffix: true,
@@ -76,15 +77,14 @@ const WallpaperCard = ({
 								</div>
 							</div>
 						</div>
-						<div className="">
-							<Button asChild>
-								<a
-									href={`/upload/wallpaper/${image}`}
-									download>
-									Download
-								</a>
-							</Button>
-						</div>
+
+						<Button asChild>
+							<a
+								href={`/upload/wallpaper/${image}`}
+								download>
+								Download
+							</a>
+						</Button>
 					</div>
 
 					{isStudio && (

@@ -28,8 +28,8 @@ const createWallpaper = async (
 
 		await prisma.wallpaper.create({
 			data: {
-				category,
 				image: imageName,
+				categoryCategoryId: category,
 				userId: id,
 			},
 		});

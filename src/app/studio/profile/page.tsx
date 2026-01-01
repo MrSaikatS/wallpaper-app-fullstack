@@ -35,6 +35,7 @@ const page = async () => {
 						Profile Picture
 					</CardTitle>
 				</CardHeader>
+
 				<CardContent>
 					<AvatarForm imgId={user.image} />
 				</CardContent>
@@ -46,6 +47,7 @@ const page = async () => {
 						Profile Details
 					</CardTitle>
 				</CardHeader>
+
 				<CardContent>
 					<ProfileForm userName={user.name} />
 				</CardContent>

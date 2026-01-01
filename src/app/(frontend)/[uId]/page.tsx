@@ -14,6 +14,7 @@ const page = async ({ params }: ProfilePageProps) => {
 		},
 		include: {
 			user: true,
+			category: true,
 		},
 	});
 

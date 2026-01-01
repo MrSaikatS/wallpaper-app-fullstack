@@ -3,14 +3,15 @@ import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Nextjs Starter Frontend",
-	description: "Production grade Next.js starter template",
+	title: "Public Wallpaper | Wallpaper App",
+	description: "Public Wallpaper page of Wallpaper App",
 };
 
 const page = async () => {
 	const allWallpapers = await prisma.wallpaper.findMany({
 		include: {
 			user: true,
+			category: true,
 		},
 	});
 

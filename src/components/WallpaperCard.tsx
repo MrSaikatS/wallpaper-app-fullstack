@@ -66,7 +66,11 @@ const WallpaperCard = ({
 							<div className="text-foreground flex gap-3">
 								<div className="">
 									<div className="">{user.name}</div>
-									<div className="font-semibold">#{category.categoryName}</div>
+									<Link
+										href={`/category/${category.slug}`}
+										className="font-semibold">
+										#{category.name}
+									</Link>
 								</div>
 
 								<div>

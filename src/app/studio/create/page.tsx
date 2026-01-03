@@ -15,7 +15,12 @@ export const metadata: Metadata = {
 	description: "Create page of Wallpaper App",
 };
 const page = async () => {
-	const allCategory = await prisma.category.findMany();
+	const allCategory = await prisma.category.findMany({
+		select: {
+			id: true,
+			name: true,
+		},
+	});
 
 	return (
 		<section className="grid h-[90dvh] place-items-center">
@@ -29,7 +34,8 @@ const page = async () => {
 				<CardContent>
 					<WallpaperForm categoryArray={allCategory} />
 				</CardContent>
-				<CardFooter className="grid place-items-center text-xl font-light">
+
+				<CardFooter className="flex items-center justify-center gap-2 text-xl font-light">
 					Missing a category?
 					<CreateCategoryForm />
 				</CardFooter>

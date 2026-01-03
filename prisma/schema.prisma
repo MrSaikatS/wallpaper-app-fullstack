@@ -72,19 +72,19 @@ model Verification {
 }
 
 model Wallpaper {
-  id                 String   @id @default(uuid())
-  image              String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @default(now()) @updatedAt
-  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId             String
-  category           Category @relation(fields: [categoryCategoryId], references: [categoryId])
-  categoryCategoryId String
+  id         String   @id @default(uuid())
+  image      String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now()) @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
 }
 
 model Category {
-  categoryId   String      @id @default(uuid())
-  categoryName String
-  categorySlug String      @unique
-  wallpapers   Wallpaper[]
+  id         String      @id @default(uuid())
+  name       String
+  slug       String      @unique
+  wallpapers Wallpaper[]
 }

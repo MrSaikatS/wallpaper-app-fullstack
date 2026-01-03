@@ -5,14 +5,23 @@ import { revalidatePath } from "next/cache";
 
 const createCategory = async (category: string) => {
 	try {
+		const newSlug = category
+			.trim()
+			.toLowerCase()
+			.normalize("NFD")
+			.replace(/[\u0300-\u036f]/g, "")
+			.replace(/[^a-z0-9\s-]/g, " ")
+			.replace(/[\s-]+/g, "-")
+			.replace(/^-+|-+$/g, "");
+
 		await prisma.category.create({
 			data: {
-				categoryName: category,
-				categorySlug: category.toLowerCase(),
+				name: category,
+				slug: newSlug,
 			},
 		});
 
-		revalidatePath("/", "layout");
+		revalidatePath("/studio/create");
 
 		return {
 			isSuccess: true,

@@ -56,7 +56,7 @@ const WallpaperCard = ({
 							<Link href={`/${user.id}`}>
 								<Image
 									src={`/upload/avatar/${user.image}`}
-									alt="userImg"
+									alt={user.name}
 									height={50}
 									width={50}
 									className="rounded-full border-4 border-amber-500"

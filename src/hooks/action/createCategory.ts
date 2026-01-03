@@ -2,6 +2,7 @@
 
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "../../../generated/prisma/client";
 
 const createCategory = async (category: string) => {
 	try {
@@ -25,10 +26,18 @@ const createCategory = async (category: string) => {
 
 		return {
 			isSuccess: true,
-			message: "Category created Succesfully 👍",
+			message: "Category created Successfully 👍",
 		};
 	} catch (error) {
-		console.log(error);
+		if (
+			error instanceof Prisma.PrismaClientKnownRequestError &&
+			error.code === "P2002"
+		) {
+			return {
+				isSuccess: false,
+				message: "A category with this name already exists 🔄",
+			};
+		}
 
 		return {
 			isSuccess: false,

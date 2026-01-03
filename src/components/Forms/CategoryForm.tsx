@@ -31,8 +31,6 @@ const CategoryForm = () => {
 	const categoryHandeler = async ({ category }: CreateCategoryType) => {
 		const { isSuccess, message } = await createCategory(category);
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (!isSuccess) {
 			toast.error(message);
 		}

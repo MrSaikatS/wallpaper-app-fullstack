@@ -78,7 +78,7 @@ model Wallpaper {
   updatedAt  DateTime @default(now()) @updatedAt
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
 }
 

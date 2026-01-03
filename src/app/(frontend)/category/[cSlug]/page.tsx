@@ -1,5 +1,6 @@
 import WallpaperCard from "@/components/WallpaperCard";
 import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
 
 type CategoryPageProps = {
 	params: Promise<{ cSlug: string }>;
@@ -8,19 +9,25 @@ type CategoryPageProps = {
 export const generateMetadata = async ({ params }: CategoryPageProps) => {
 	const { cSlug } = await params;
 
-	const { name } = await prisma.category.findUniqueOrThrow({
-		where: {
-			slug: cSlug,
-		},
-		select: {
-			name: true,
-		},
-	});
+	try {
+		const { name } = await prisma.category.findUniqueOrThrow({
+			where: {
+				slug: cSlug,
+			},
+			select: {
+				name: true,
+			},
+		});
 
-	return {
-		title: `${name}  Wallpapers | Wallpaper App`,
-		description: `${name} Wallpapers page of Wallpaper App`,
-	};
+		return {
+			title: `${name} Wallpapers | Wallpaper App`,
+			description: `${name} Wallpapers page of Wallpaper App`,
+		};
+	} catch (error) {
+		console.log(error);
+
+		return notFound();
+	}
 };
 
 const page = async ({ params }: CategoryPageProps) => {
@@ -39,7 +46,7 @@ const page = async ({ params }: CategoryPageProps) => {
 	});
 	return (
 		<section className="grid grid-cols-2 place-items-center gap-4">
-			{categoryWallpapers?.map((data) => (
+			{categoryWallpapers.map((data) => (
 				<WallpaperCard
 					key={data.id}
 					wallpaper={data}

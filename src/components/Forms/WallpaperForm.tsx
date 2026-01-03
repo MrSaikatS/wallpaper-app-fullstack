@@ -52,9 +52,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 	});
 
 	const categorySchema = z.object({
-		category: z
-			.string()
-			.min(2, { error: "Name must be minimum 2 characters long" }),
+		category: z.string().min(1, { error: "Please select a category" }),
 	});
 
 	const {

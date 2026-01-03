@@ -27,12 +27,12 @@ const CreateCategoryForm = () => {
 				<DialogHeader>
 					<DialogTitle>Create Category</DialogTitle>
 
-					<DialogDescription className="hidden"></DialogDescription>
+					<DialogDescription>
+						Enter a category name to organize your wallpapers
+					</DialogDescription>
 				</DialogHeader>
 
-				<div className="">
-					<CategoryForm />
-				</div>
+				<CategoryForm />
 			</DialogContent>
 		</Dialog>
 	);

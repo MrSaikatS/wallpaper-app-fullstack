@@ -22,7 +22,7 @@ const Header = () => {
 					<Link
 						href={"/studio"}
 						className="hover:underline">
-						Dashbord
+						Dashboard
 					</Link>
 					<Link
 						href={"/studio/create"}

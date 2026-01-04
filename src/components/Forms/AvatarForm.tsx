@@ -68,21 +68,20 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 					/>
 				)}
 
-				{filesContent.map((file, idx) => (
+				{filesContent[0] && (
 					<Image
-						key={idx}
-						src={file.content}
-						alt={file.name}
+						src={filesContent[0].content}
+						alt={filesContent[0].name}
 						width={240}
 						height={240}
 						className="aspect-square h-60 w-60 rounded-full object-cover"
 					/>
-				))}
+				)}
 			</div>
 
 			{errors[0] && (
 				<div className="text-destructive text-center text-sm">
-					File is Tooo large (5mb)
+					File is Too large (5mb)
 				</div>
 			)}
 

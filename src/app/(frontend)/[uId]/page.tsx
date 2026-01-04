@@ -5,6 +5,24 @@ type ProfilePageProps = {
 	params: Promise<{ uId: string }>;
 };
 
+export const generateMetadata = async ({ params }: ProfilePageProps) => {
+	const { uId } = await params;
+
+	const { name } = await prisma.user.findUniqueOrThrow({
+		where: {
+			id: uId,
+		},
+		select: {
+			name: true,
+		},
+	});
+
+	return {
+		title: `${name}'s  Wallpapers | Wallpaper App`,
+		description: `${name}'s Wallpapers page of Wallpaper App`,
+	};
+};
+
 const page = async ({ params }: ProfilePageProps) => {
 	const { uId } = await params;
 

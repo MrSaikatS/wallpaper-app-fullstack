@@ -5,12 +5,14 @@ import { authClient } from "@/lib/betterAuth/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
 import z from "zod";
+import { Prisma } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import {
@@ -20,13 +22,14 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "../shadcnui/select";
-import { useRouter } from "next/navigation";
 
 export type WallpaperFormProps = {
-	categoryArray: {
-		categoryId: string;
-		categoryName: string;
-	}[];
+	categoryArray: Prisma.CategoryGetPayload<{
+		select: {
+			id: true;
+			name: true;
+		};
+	}>[];
 };
 
 const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
@@ -49,9 +52,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 	});
 
 	const categorySchema = z.object({
-		category: z
-			.string()
-			.min(2, { error: "Name must be minimum 2 characters long" }),
+		category: z.string().min(1, { error: "Please select a category" }),
 	});
 
 	const {
@@ -148,11 +149,11 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 									<SelectValue placeholder="Choose category" />
 								</SelectTrigger>
 								<SelectContent>
-									{categoryArray.map(({ categoryId, categoryName }) => (
+									{categoryArray.map(({ id, name }) => (
 										<SelectItem
-											key={categoryId}
-											value={categoryId}>
-											{categoryName}
+											key={id}
+											value={id}>
+											{name}
 										</SelectItem>
 									))}
 								</SelectContent>

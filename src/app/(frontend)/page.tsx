@@ -17,7 +17,7 @@ const page = async () => {
 
 	return (
 		<section className="grid grid-cols-2 place-items-center gap-4">
-			{allWallpapers?.map((data) => (
+			{allWallpapers.map((data) => (
 				<WallpaperCard
 					key={data.id}
 					wallpaper={data}

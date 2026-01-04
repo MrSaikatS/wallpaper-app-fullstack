@@ -58,7 +58,7 @@ const CategoryForm = () => {
 							id={field.name}
 							aria-invalid={fieldState.invalid}
 							placeholder="Enter your category"
-							autoComplete="category"
+							autoComplete="off"
 						/>
 						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 					</Field>

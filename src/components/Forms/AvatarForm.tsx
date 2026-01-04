@@ -42,8 +42,6 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 			toast.error(message);
 		}
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (isSuccess) {
 			toast.success(message);
 

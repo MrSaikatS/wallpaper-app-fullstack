@@ -33,3 +33,7 @@ export const createCategorySchema = z.object({
 		.string()
 		.min(3, { error: "Category must be minimum 3 characters long" }),
 });
+
+export const categorySchema = z.object({
+	category: z.string().min(1, { error: "Please select a category" }),
+});

@@ -24,7 +24,7 @@ export const generateMetadata = async ({ params }: CategoryPageProps) => {
 			description: `${name} Wallpapers page of Wallpaper App`,
 		};
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 
 		return notFound();
 	}

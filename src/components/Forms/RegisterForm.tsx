@@ -34,8 +34,6 @@ const RegisterForm = () => {
 	const registerHandeler = async (rData: RegisterType) => {
 		const { isSuccess, message } = await userSignUp(rData);
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (!isSuccess) {
 			toast.error(message);
 		}

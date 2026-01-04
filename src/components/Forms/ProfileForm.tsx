@@ -36,8 +36,6 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
 	const nameHandeler = async ({ name }: z.infer<typeof nameSchema>) => {
 		const { isSuccess, message } = await updateProfileDetails(name);
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (!isSuccess) {
 			toast.error(message);
 		}

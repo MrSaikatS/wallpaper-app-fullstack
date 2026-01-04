@@ -2,6 +2,8 @@
 
 import createWallpaper from "@/hooks/action/createWallpaper";
 import { authClient } from "@/lib/betterAuth/auth-client";
+import { CategoryType } from "@/lib/types";
+import { categorySchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
@@ -11,7 +13,6 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
-import z from "zod";
 import { Prisma } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
@@ -51,10 +52,6 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 		onClear: () => setIsFile(false),
 	});
 
-	const categorySchema = z.object({
-		category: z.string().min(1, { error: "Please select a category" }),
-	});
-
 	const {
 		handleSubmit,
 		control,
@@ -67,9 +64,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 		mode: "all",
 	});
 
-	const categoryHandeler = async ({
-		category,
-	}: z.infer<typeof categorySchema>) => {
+	const categoryHandeler = async ({ category }: CategoryType) => {
 		const { data } = await authClient.getSession();
 
 		if (data === null) {
@@ -80,7 +75,6 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 			user: { id },
 		} = data;
 
-		await new Promise((r) => setTimeout(r, 1500));
 		const { isSuccess, message } = await createWallpaper(
 			category,
 			plainFiles[0],
@@ -116,7 +110,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 					alt={file.name}
 					width={640}
 					height={360}
-					className="aspect-square h-90 w-160 rounded-sm object-cover"
+					className="aspect-video h-90 w-160 rounded-sm object-cover"
 				/>
 			))}
 

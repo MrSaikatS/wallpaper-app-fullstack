@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
+import { rm } from "node:fs/promises";
 import sharp from "sharp";
 
 const createWallpaper = async (
@@ -10,10 +11,10 @@ const createWallpaper = async (
 	filesContent: File,
 	id: string,
 ) => {
+	const imageName = `${nanoid()}.jpeg`;
+
 	try {
 		const imgArrayBuffer = await filesContent.arrayBuffer();
-
-		const imageName = `${nanoid()}.jpeg`;
 
 		await sharp(imgArrayBuffer)
 			.resize({
@@ -28,8 +29,8 @@ const createWallpaper = async (
 
 		await prisma.wallpaper.create({
 			data: {
-				category,
 				image: imageName,
+				categoryId: category,
 				userId: id,
 			},
 		});
@@ -42,6 +43,8 @@ const createWallpaper = async (
 		};
 	} catch (error) {
 		console.log(error);
+
+		await rm(`./public/upload/wallpaper/${imageName}`);
 
 		return {
 			isSuccess: false,

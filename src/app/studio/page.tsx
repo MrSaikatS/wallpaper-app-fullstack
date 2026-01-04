@@ -6,8 +6,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-	title: "Nextjs Starter Frontend",
-	description: "Production grade Next.js starter template",
+	title: "Private Wallpaper | Wallpaper App",
+	description: "Private Wallpaper page of Wallpaper App",
 };
 
 const page = async () => {
@@ -25,6 +25,7 @@ const page = async () => {
 		},
 		include: {
 			user: true,
+			category: true,
 		},
 	});
 

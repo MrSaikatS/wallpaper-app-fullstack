@@ -2,8 +2,10 @@
 
 import createWallpaper from "@/hooks/action/createWallpaper";
 import { authClient } from "@/lib/betterAuth/auth-client";
+import { CategoryType } from "@/lib/types";
+import { categorySchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ImagesIcon, LoaderIcon } from "lucide-react";
+import { ImagesIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -11,12 +13,27 @@ import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
-import z from "zod";
+import { Prisma } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
-import { Input } from "../shadcnui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../shadcnui/select";
 
-const WallpaperForm = () => {
+export type WallpaperFormProps = {
+	categoryArray: Prisma.CategoryGetPayload<{
+		select: {
+			id: true;
+			name: true;
+		};
+	}>[];
+};
+
+const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 	const [isFile, setIsFile] = useState(false);
 
 	const { push } = useRouter();
@@ -35,16 +52,10 @@ const WallpaperForm = () => {
 		onClear: () => setIsFile(false),
 	});
 
-	const categorySchema = z.object({
-		category: z
-			.string()
-			.min(2, { error: "Name must be minimum 2 characters long" }),
-	});
-
 	const {
 		handleSubmit,
 		control,
-		formState: { isSubmitting },
+		formState: { isSubmitting, isDirty },
 	} = useForm({
 		resolver: zodResolver(categorySchema),
 		defaultValues: {
@@ -53,9 +64,7 @@ const WallpaperForm = () => {
 		mode: "all",
 	});
 
-	const categoryHandeler = async ({
-		category,
-	}: z.infer<typeof categorySchema>) => {
+	const categoryHandeler = async ({ category }: CategoryType) => {
 		const { data } = await authClient.getSession();
 
 		if (data === null) {
@@ -66,7 +75,6 @@ const WallpaperForm = () => {
 			user: { id },
 		} = data;
 
-		await new Promise((r) => setTimeout(r, 1500));
 		const { isSuccess, message } = await createWallpaper(
 			category,
 			plainFiles[0],
@@ -91,7 +99,7 @@ const WallpaperForm = () => {
 					alt="Avatar Image"
 					width={640}
 					height={360}
-					className="aspect-video h-[360px] w-[640px] rounded-sm object-cover"
+					className="aspect-video h-90 w-160 rounded-sm object-cover"
 				/>
 			)}
 
@@ -102,7 +110,7 @@ const WallpaperForm = () => {
 					alt={file.name}
 					width={640}
 					height={360}
-					className="aspect-square h-[360px] w-[640px] rounded-sm object-cover"
+					className="aspect-video h-90 w-160 rounded-sm object-cover"
 				/>
 			))}
 
@@ -128,13 +136,22 @@ const WallpaperForm = () => {
 					render={({ field, fieldState }) => (
 						<Field data-invalid={fieldState.invalid}>
 							<FieldLabel htmlFor={field.name}>Category</FieldLabel>
-							<Input
-								{...field}
-								id={field.name}
-								aria-invalid={fieldState.invalid}
-								placeholder="Enter your category"
-								autoComplete="category"
-							/>
+							<Select
+								onValueChange={field.onChange}
+								defaultValue={field.value}>
+								<SelectTrigger>
+									<SelectValue placeholder="Choose category" />
+								</SelectTrigger>
+								<SelectContent>
+									{categoryArray.map(({ id, name }) => (
+										<SelectItem
+											key={id}
+											value={id}>
+											{name}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 						</Field>
 					)}
@@ -143,13 +160,13 @@ const WallpaperForm = () => {
 				<Button
 					className="w-full cursor-pointer"
 					type="submit"
-					disabled={!isFile || isSubmitting}>
+					disabled={!isFile || isSubmitting || !isDirty}>
 					{isSubmitting ? (
 						<>
-							<LoaderIcon className="animate-spin" /> Submitting...
+							<Loader2Icon className="animate-spin" /> Creating...
 						</>
 					) : (
-						<>Submit</>
+						<>Create</>
 					)}
 				</Button>
 			</form>

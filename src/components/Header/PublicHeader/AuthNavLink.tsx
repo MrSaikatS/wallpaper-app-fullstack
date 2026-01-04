@@ -14,7 +14,11 @@ const AuthNavLink = async () => {
 				variant={"outline"}
 				size={"sm"}
 				asChild>
-				<Link href="/studio">Dashboard</Link>
+				<Link
+					href="/studio"
+					className="hover:underline">
+					Dashboard
+				</Link>
 			</Button>
 		);
 	}
@@ -25,14 +29,22 @@ const AuthNavLink = async () => {
 				variant={"outline"}
 				size={"sm"}
 				asChild>
-				<Link href="/auth/login">Login</Link>
+				<Link
+					href="/auth/login"
+					className="hover:underline">
+					Login
+				</Link>
 			</Button>
 
 			<Button
 				variant={"outline"}
 				size={"sm"}
 				asChild>
-				<Link href="/auth/register">Register</Link>
+				<Link
+					href="/auth/register"
+					className="hover:underline">
+					Register
+				</Link>
 			</Button>
 		</>
 	);

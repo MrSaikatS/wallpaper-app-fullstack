@@ -26,3 +26,14 @@ export const registerSchema = z
 		error: "Password didn't match",
 		path: ["confirmPassword"],
 	});
+
+// user create category schema
+export const createCategorySchema = z.object({
+	category: z
+		.string()
+		.min(3, { error: "Category must be minimum 3 characters long" }),
+});
+
+export const categorySchema = z.object({
+	category: z.string().min(1, { error: "Please select a category" }),
+});

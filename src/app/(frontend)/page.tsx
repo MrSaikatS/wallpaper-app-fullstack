@@ -1,7 +1,7 @@
 import PaginationQuery from "@/components/PaginationQuery";
 import WallpaperCard from "@/components/WallpaperCard";
-import getWallpapers from "@/hooks/action/getWallpapers";
 import { auth } from "@/lib/betterAuth/auth";
+import prisma from "@/lib/prisma";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -15,7 +15,11 @@ type PageProps = {
 		page?: string;
 	}>;
 };
+
 const page = async ({ searchParams }: PageProps) => {
+	const { page } = await searchParams;
+	const pageNumber = Number(page) || 1;
+
 	const session = await auth.api.getSession({
 		headers: await headers(),
 	});
@@ -24,10 +28,16 @@ const page = async ({ searchParams }: PageProps) => {
 		redirect("/auth/login");
 	}
 
-	const { page } = await searchParams;
-	const pageNumber = Number(page) > 0 ? Number(page) : 1;
+	const userWallpapers = await prisma.wallpaper.findMany({
+		include: {
+			user: true,
+		},
+		take: 4,
+		skip: (pageNumber - 1) * 4,
+	});
 
-	const { totalPages, userWallpapers } = await getWallpapers(pageNumber);
+	const pageCount = await prisma.wallpaper.count();
+	const totalPage = Math.ceil(Number(pageCount) / 4);
 
 	return (
 		<>
@@ -41,7 +51,11 @@ const page = async ({ searchParams }: PageProps) => {
 			</section>
 
 			<div className="my-10 grid place-items-center">
-				<PaginationQuery Pages={totalPages} />
+				<PaginationQuery
+					key={pageNumber}
+					pageNumber={pageNumber}
+					totalPage={totalPage}
+				/>
 			</div>
 		</>
 	);

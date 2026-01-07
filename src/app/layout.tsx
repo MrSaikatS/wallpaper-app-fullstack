@@ -1,5 +1,4 @@
 import ThemeProvider from "@/components/Providers/ThemeProvider";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 
 type RootLayoutProps = {
@@ -16,7 +15,7 @@ const RootLayout = ({ children }: Readonly<RootLayoutProps>) => {
 					attribute={"class"}
 					defaultTheme="dark"
 					enableSystem={false}>
-					<NuqsAdapter>{children}</NuqsAdapter>
+					{children}
 				</ThemeProvider>
 			</body>
 		</html>

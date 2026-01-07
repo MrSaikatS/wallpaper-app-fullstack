@@ -1,9 +1,7 @@
 "use client";
 
-import getWallpapers from "@/hooks/action/getWallpapers";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { parseAsInteger, useQueryState } from "nuqs";
 import { Button } from "./shadcnui/button";
 import {
 	Pagination,
@@ -12,43 +10,62 @@ import {
 	PaginationItem,
 } from "./shadcnui/pagination";
 
-type totalPageProp = {
-	Pages: number;
+type PaginationQueryProps = {
+	totalPage: number;
+	pageNumber: number;
 };
 
-const PaginationQuery = ({ Pages }: totalPageProp) => {
-	const { refresh } = useRouter();
-
-	const totalPages = Number(Pages);
-	const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+const PaginationQuery = ({ totalPage, pageNumber }: PaginationQueryProps) => {
+	const { push } = useRouter();
 
 	const handlePageChange = async (newPage: number) => {
-		setPage(newPage);
-
-		await getWallpapers(page);
-
-		refresh();
+		push(`?page=${newPage}`, { scroll: false });
 	};
 
 	const getPageNumbers = () => {
-		if (page <= 3) {
-			return [1, 2, 3, 4, "ellipsis"];
-		}
-		if (page >= 4 && page !== totalPages) {
-			return [1, "ellipsis", page - 1, page, page + 1];
+		if (totalPage <= 7) {
+			const pageNumArray: string[] = [];
+			pageNumArray.length = totalPage;
+			pageNumArray.fill("");
+
+			const result = pageNumArray.map((val, ind) => ind + 1);
+			return result;
 		}
 
-		return [1, "ellipsis", page - 1, page];
+		if (pageNumber <= 3) {
+			return [1, 2, 3, 4, 5, "ellipsis", totalPage];
+		}
+
+		if (pageNumber >= totalPage - 2) {
+			return [
+				1,
+				"ellipsis",
+				totalPage - 3,
+				totalPage - 2,
+				totalPage - 1,
+				totalPage,
+			];
+		}
+
+		return [
+			1,
+			"ellipsis",
+			pageNumber - 1,
+			pageNumber,
+			pageNumber + 1,
+			"ellipsis",
+			totalPage,
+		];
 	};
 	return (
-		<Pagination className="my-4">
+		<Pagination className={`my-4 ${!totalPage ? "hidden" : "flex"}`}>
 			<PaginationContent>
 				<PaginationItem>
 					<Button
-						onClick={() => handlePageChange(page - 1)}
-						disabled={page === 1}
+						onClick={() => handlePageChange(pageNumber - 1)}
+						disabled={pageNumber === 1}
 						variant="ghost"
-						className="gap-1">
+						className="cursor-pointer gap-1">
 						<ChevronLeftIcon className="h-4 w-4" />
 						<span className="hidden sm:inline">Previous</span>
 					</Button>
@@ -64,9 +81,9 @@ const PaginationQuery = ({ Pages }: totalPageProp) => {
 					) : (
 						<PaginationItem key={pageNum}>
 							<Button
-								variant={page === pageNum ? "default" : "ghost"}
+								variant={pageNumber === pageNum ? "default" : "ghost"}
 								onClick={() => handlePageChange(pageNum as number)}
-								className="min-w-9 sm:min-w-10">
+								className="min-w-9 cursor-pointer sm:min-w-10">
 								{pageNum}
 							</Button>
 						</PaginationItem>
@@ -75,10 +92,10 @@ const PaginationQuery = ({ Pages }: totalPageProp) => {
 
 				<PaginationItem>
 					<Button
-						onClick={() => handlePageChange(page + 1)}
-						disabled={page === totalPages || page >= totalPages}
+						onClick={() => handlePageChange(pageNumber + 1)}
+						disabled={pageNumber === totalPage}
 						variant="ghost"
-						className="gap-1">
+						className="cursor-pointer gap-1">
 						<span className="hidden sm:inline">Next</span>
 						<ChevronRightIcon className="h-4 w-4" />
 					</Button>

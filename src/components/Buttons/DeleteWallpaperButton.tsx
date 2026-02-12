@@ -21,7 +21,7 @@ const DeleteWallpaperButton = ({
 	const { data } = authClient.useSession();
 
 	if (!data) {
-		return <>Not authenticated</>;
+		return null;
 	}
 
 	const {
@@ -33,8 +33,6 @@ const DeleteWallpaperButton = ({
 	}
 
 	const wallpaperDeleteHandler = async () => {
-		setIsLoading(true);
-
 		const { isSuccess, message } = await deleteWallpaper(
 			wallpaperId,
 			wallpaperImg,
@@ -46,6 +44,7 @@ const DeleteWallpaperButton = ({
 
 		if (isSuccess) {
 			toast.success(message);
+			setIsLoading(true);
 		}
 
 		setIsLoading(false);

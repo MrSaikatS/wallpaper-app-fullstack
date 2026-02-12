@@ -18,7 +18,14 @@ type WallpaperCardProp = {
 };
 
 const WallpaperCard = ({
-	wallpaper: { image, user, createdAt, id, category, userId },
+	wallpaper: {
+		image,
+		user,
+		createdAt,
+		id,
+		category: { slug, name },
+		userId,
+	},
 }: WallpaperCardProp) => {
 	return (
 		<Card>
@@ -45,12 +52,12 @@ const WallpaperCard = ({
 							</Link>
 
 							<div className="text-foreground flex gap-3">
-								<div className="">
+								<div>
 									<div className="">{user.name}</div>
 									<Link
-										href={`/category/${category.slug}`}
+										href={`/category/${slug}`}
 										className="font-semibold">
-										#{category.name}
+										#{name}
 									</Link>
 								</div>
 

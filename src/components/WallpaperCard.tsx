@@ -32,7 +32,7 @@ const WallpaperCard = ({
 			<CardContent>
 				<div className="relative">
 					<Image
-						alt={`${image}.jpg`}
+						alt={image}
 						src={`/upload/wallpaper/${image}`}
 						height={360}
 						width={640}
@@ -54,11 +54,17 @@ const WallpaperCard = ({
 							<div className="text-foreground flex gap-3">
 								<div>
 									<div className="">{user.name}</div>
-									<Link
-										href={`/category/${slug}`}
-										className="font-semibold">
-										#{name}
-									</Link>
+									{slug && name ? (
+										<Link
+											href={`/category/${slug}`}
+											className="font-semibold">
+											#{name}
+										</Link>
+									) : (
+										<span className="text-muted-foreground font-semibold">
+											#uncategorized
+										</span>
+									)}
 								</div>
 
 								<div>

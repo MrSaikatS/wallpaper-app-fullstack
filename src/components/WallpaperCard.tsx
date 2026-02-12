@@ -25,7 +25,7 @@ const WallpaperCard = ({
 			<CardContent>
 				<div className="relative">
 					<Image
-						alt=""
+						alt={`${image}.jpg`}
 						src={`/upload/wallpaper/${image}`}
 						height={360}
 						width={640}

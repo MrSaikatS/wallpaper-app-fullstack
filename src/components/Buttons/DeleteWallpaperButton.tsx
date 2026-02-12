@@ -33,21 +33,26 @@ const DeleteWallpaperButton = ({
 	}
 
 	const wallpaperDeleteHandler = async () => {
-		const { isSuccess, message } = await deleteWallpaper(
-			wallpaperId,
-			wallpaperImg,
-		);
+		try {
+			const { isSuccess, message } = await deleteWallpaper(
+				wallpaperId,
+				wallpaperImg,
+			);
 
-		if (!isSuccess) {
-			toast.error(message);
+			if (!isSuccess) {
+				toast.error(message);
+			}
+
+			if (isSuccess) {
+				toast.success(message);
+				setIsLoading(true);
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error("Something went wrong 🥲");
+		} finally {
+			setIsLoading(false);
 		}
-
-		if (isSuccess) {
-			toast.success(message);
-			setIsLoading(true);
-		}
-
-		setIsLoading(false);
 	};
 
 	return (

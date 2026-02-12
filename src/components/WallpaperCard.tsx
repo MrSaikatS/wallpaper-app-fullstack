@@ -1,13 +1,10 @@
 "use client";
 
-import deleteWallpaper from "@/hooks/action/deleteWallpaper";
 import { formatDistanceToNow } from "date-fns";
-import { Loader2Icon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { Prisma } from "../../generated/prisma/client";
+import DeleteWallpaperButton from "./Buttons/DeleteWallpaperButton";
 import { Button } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
@@ -21,26 +18,10 @@ type WallpaperCardProp = {
 };
 
 const WallpaperCard = ({
-	wallpaper: { image, user, createdAt, id, category },
+	wallpaper: { image, user, createdAt, id, category, userId },
 }: WallpaperCardProp) => {
-	const pathname = usePathname();
-
-	const isStudio = pathname.startsWith("/studio");
-
-	const [isLoading, setIsLoading] = useState(false);
-
-	const wallpaperDeleteHandler = async () => {
-		setIsLoading(true);
-
-		await new Promise<void>((r) => setTimeout(r, 1500));
-
-		await deleteWallpaper(id, image);
-
-		setIsLoading(false);
-	};
-
 	return (
-		<Card className="">
+		<Card>
 			<CardContent>
 				<div className="relative">
 					<Image
@@ -91,22 +72,11 @@ const WallpaperCard = ({
 						</Button>
 					</div>
 
-					{isStudio && (
-						<Button
-							onClick={wallpaperDeleteHandler}
-							disabled={isLoading}
-							className="absolute top-0 right-0 z-50 mt-2 mr-2 cursor-pointer bg-red-600 text-white">
-							{isLoading ? (
-								<>
-									<Loader2Icon className="animate-spin" /> Deleting...
-								</>
-							) : (
-								<>
-									<Trash2Icon /> Delete
-								</>
-							)}
-						</Button>
-					)}
+					<DeleteWallpaperButton
+						wallpaperId={id}
+						wallpaperImg={image}
+						wallpaperOwnerId={userId}
+					/>
 				</div>
 			</CardContent>
 		</Card>

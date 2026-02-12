@@ -1,67 +1,64 @@
 "use client";
 
-import updateProfileDetails from "@/hooks/action/updateProfileDetails";
+import createCategory from "@/hooks/action/createCategory";
+import { dialogDrawerAtom } from "@/lib/jotaiAtom";
+import { CreateCategoryType } from "@/lib/types";
+import { createCategorySchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon, PencilLineIcon } from "lucide-react";
+import { useSetAtom } from "jotai";
+import { Loader2Icon, UploadIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import z from "zod";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
-type ProfileFormProps = {
-	userName: string;
-};
-
-const ProfileForm = ({ userName }: ProfileFormProps) => {
-	const nameSchema = z.object({
-		name: z
-			.string()
-			.min(2, { error: "Name must be minimum 2 characters long" }),
-	});
+const CategoryForm = () => {
+	const setOpen = useSetAtom(dialogDrawerAtom);
 
 	const {
 		handleSubmit,
 		control,
-		formState: { isSubmitting, isDirty },
+		formState: { isSubmitting },
+		reset,
 	} = useForm({
-		resolver: zodResolver(nameSchema),
+		resolver: zodResolver(createCategorySchema),
 		defaultValues: {
-			name: userName,
+			category: "",
 		},
-		mode: "all",
 	});
 
-	const nameHandeler = async ({ name }: z.infer<typeof nameSchema>) => {
-		const { isSuccess, message } = await updateProfileDetails(name);
+	const categoryHandeler = async ({ category }: CreateCategoryType) => {
+		const { isSuccess, message } = await createCategory(category);
 
 		if (!isSuccess) {
 			toast.error(message);
 		}
+
 		if (isSuccess) {
+			setOpen(false);
 			toast.success(message);
+			reset();
 		}
 	};
-
 	return (
 		<form
-			onSubmit={handleSubmit(nameHandeler)}
+			onSubmit={handleSubmit(categoryHandeler)}
 			className="grid gap-6"
 			noValidate>
-			{/* Name field */}
+			{/* category field */}
 			<Controller
-				name="name"
+				name="category"
 				control={control}
 				render={({ field, fieldState }) => (
 					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Name</FieldLabel>
+						<FieldLabel htmlFor={field.name}>Category</FieldLabel>
 						<Input
 							{...field}
 							id={field.name}
 							aria-invalid={fieldState.invalid}
-							placeholder="Enter your name"
-							autoComplete="name"
+							placeholder="Enter your category"
+							autoComplete="off"
 						/>
 						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
 					</Field>
@@ -71,16 +68,14 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
 			<Button
 				className="w-full cursor-pointer"
 				type="submit"
-				disabled={!isDirty}>
+				disabled={isSubmitting}>
 				{isSubmitting ? (
 					<>
-						<Loader2Icon className="animate-spin" />
-						Updating...
+						<Loader2Icon className="animate-spin" /> Submitting...
 					</>
 				) : (
 					<>
-						<PencilLineIcon />
-						Update
+						<UploadIcon /> Submit
 					</>
 				)}
 			</Button>
@@ -88,4 +83,4 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
 	);
 };
 
-export default ProfileForm;
+export default CategoryForm;

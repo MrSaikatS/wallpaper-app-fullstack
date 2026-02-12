@@ -4,8 +4,8 @@ import { LoginType } from "@/lib/types";
 const userSignIn = async ({ email, password, rememberMe }: LoginType) => {
 	try {
 		const { error, data } = await authClient.signIn.email({
-			email, // required
-			password, // required
+			email,
+			password,
 			rememberMe,
 		});
 

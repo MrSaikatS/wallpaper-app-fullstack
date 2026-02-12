@@ -18,8 +18,6 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 
 	const [isUploading, setIsUploading] = useState<boolean>(false);
 
-	// const { refresh } = useRouter();
-
 	const { openFilePicker, filesContent, plainFiles, clear, errors } =
 		useFilePicker({
 			readAs: "DataURL",
@@ -38,19 +36,15 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 	const handleImageSubmit = async () => {
 		setIsUploading(true);
 
-		//
-
 		const { isSuccess, message } = await updateAvatar(plainFiles[0]);
 
 		if (!isSuccess) {
 			toast.error(message);
 		}
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (isSuccess) {
 			toast.success(message);
-			// refresh();
+
 			clear();
 		}
 
@@ -58,70 +52,67 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
 	};
 
 	return (
-		<>
-			<div className="flex flex-col justify-center gap-4">
-				<div className="grid place-items-center">
-					{!isFile && (
-						<Image
-							src={
-								imgId ? `/upload/avatar/${imgId}` : `/upload/avatar/avatar.png`
-							}
-							alt={imgId ?? ""}
-							width={240}
-							height={240}
-							className="aspect-square h-60 w-60 rounded-full object-cover"
-						/>
-					)}
-
-					{filesContent.map((file, idx) => (
-						<Image
-							key={idx}
-							src={file.content}
-							alt={file.name}
-							width={240}
-							height={240}
-							className="aspect-square h-60 w-60 rounded-full object-cover"
-						/>
-					))}
-				</div>
-
-				{errors[0] && (
-					<div className="text-destructive text-center text-sm">
-						File is Tooo large (5mb)
-					</div>
+		<div className="flex flex-col justify-center gap-4">
+			<div className="grid place-items-center">
+				{!isFile && (
+					<Image
+						src={
+							imgId ? `/upload/avatar/${imgId}` : `/upload/avatar/avatar.png`
+						}
+						alt={imgId ?? ""}
+						width={240}
+						height={240}
+						className="aspect-square h-60 w-60 rounded-full object-cover"
+					/>
 				)}
 
-				<div
-					className={`grid ${isFile ? "grid-cols-2" : "grid-cols-1"} mt-4 gap-4`}>
-					<Button
-						className="cursor-pointer"
-						variant={"outline"}
-						onClick={openFilePicker}>
-						<ImagesIcon />
-						Change Image
-					</Button>
-
-					{isFile && (
-						<Button
-							onClick={handleImageSubmit}
-							disabled={isUploading}
-							className="cursor-pointer">
-							{isUploading ? (
-								<>
-									<Loader2Icon className="animate-spin" />
-									Uploading...
-								</>
-							) : (
-								<>
-									<UploadIcon />
-									Upload Image
-								</>
-							)}
-						</Button>
-					)}
-				</div>
+				{filesContent[0] && (
+					<Image
+						src={filesContent[0].content}
+						alt={filesContent[0].name}
+						width={240}
+						height={240}
+						className="aspect-square h-60 w-60 rounded-full object-cover"
+					/>
+				)}
 			</div>
-		</>
+
+			{errors[0] && (
+				<div className="text-destructive text-center text-sm">
+					File is Too large (5mb)
+				</div>
+			)}
+
+			<div
+				className={`grid ${isFile ? "grid-cols-2" : "grid-cols-1"} mt-4 gap-4`}>
+				<Button
+					className="cursor-pointer"
+					variant={"outline"}
+					onClick={openFilePicker}>
+					<ImagesIcon />
+					Change Image
+				</Button>
+
+				{isFile && (
+					<Button
+						onClick={handleImageSubmit}
+						disabled={isUploading}
+						className="cursor-pointer">
+						{isUploading ? (
+							<>
+								<Loader2Icon className="animate-spin" />
+								Uploading...
+							</>
+						) : (
+							<>
+								<UploadIcon />
+								Upload Image
+							</>
+						)}
+					</Button>
+				)}
+			</div>
+		</div>
 	);
 };
 

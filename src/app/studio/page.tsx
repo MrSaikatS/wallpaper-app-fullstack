@@ -6,8 +6,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-	title: "Nextjs Starter Frontend",
-	description: "Production grade Next.js starter template",
+	title: "Private Wallpaper | Wallpaper App",
+	description: "Private Wallpaper page of Wallpaper App",
 };
 
 const page = async () => {
@@ -25,17 +25,24 @@ const page = async () => {
 		},
 		include: {
 			user: true,
+			category: true,
 		},
 	});
 
 	return (
 		<section className="grid grid-cols-2 place-items-center gap-4">
-			{userWallpapers.map((data) => (
-				<WallpaperCard
-					wallpaper={data}
-					key={data.id}
-				/>
-			))}
+			{userWallpapers.length === 0 ? (
+				<p className="col-span-full text-center text-gray-500">
+					No wallpapers found 🙂
+				</p>
+			) : (
+				userWallpapers.map((data) => (
+					<WallpaperCard
+						wallpaper={data}
+						key={data.id}
+					/>
+				))
+			)}
 		</section>
 	);
 };

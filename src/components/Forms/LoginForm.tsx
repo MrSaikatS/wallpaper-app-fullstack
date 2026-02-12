@@ -34,8 +34,6 @@ const LoginForm = () => {
 	const loginHandeler = async (lData: LoginType) => {
 		const { isSuccess, message } = await userSignIn(lData);
 
-		await new Promise((r) => setTimeout(r, 1500));
-
 		if (!isSuccess) {
 			toast.error(message);
 		}
@@ -47,8 +45,6 @@ const LoginForm = () => {
 
 			replace(`/studio`);
 		}
-
-		console.log(lData);
 	};
 
 	return (

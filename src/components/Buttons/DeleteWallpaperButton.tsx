@@ -54,7 +54,7 @@ const DeleteWallpaperButton = ({
 		<Button
 			onClick={wallpaperDeleteHandler}
 			disabled={isLoading}
-			className="absolute top-0 right-0 z-50 mt-2 mr-2 cursor-pointer bg-red-600 text-white">
+			className="absolute top-0 right-0 z-50 mt-2 mr-2 cursor-pointer bg-red-600 text-white hover:scale-95 hover:bg-red-500">
 			{isLoading ? (
 				<>
 					<Loader2Icon className="animate-spin" /> Deleting...

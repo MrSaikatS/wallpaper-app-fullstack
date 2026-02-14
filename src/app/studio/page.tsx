@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 type PageProps = {
 	searchParams: Promise<{
-		page: string;
+		page?: string;
 	}>;
 };
 

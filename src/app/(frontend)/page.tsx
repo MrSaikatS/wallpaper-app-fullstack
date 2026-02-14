@@ -37,7 +37,7 @@ const page = async ({ searchParams }: PageProps) => {
 	});
 
 	const pageCount = await prisma.wallpaper.count();
-	const totalPage = Math.ceil(Number(pageCount) / 4);
+	const totalPage = Math.ceil(pageCount / 4);
 
 	return (
 		<>
@@ -52,7 +52,6 @@ const page = async ({ searchParams }: PageProps) => {
 
 			<div className="my-10 grid place-items-center">
 				<PaginationQuery
-					key={pageNumber}
 					pageNumber={pageNumber}
 					totalPage={totalPage}
 				/>

@@ -18,7 +18,7 @@ type PageProps = {
 
 const page = async ({ searchParams }: PageProps) => {
 	const { page } = await searchParams;
-	const pageNumber = Number(page) || 1;
+	const pageNumber = Math.max(1, Math.floor(Number(page) || 1));
 
 	const session = await auth.api.getSession({
 		headers: await headers(),

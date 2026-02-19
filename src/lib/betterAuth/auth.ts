@@ -8,7 +8,7 @@ import { hashPasswordFunction, verifyPasswordFunction } from "./argon2";
 export const auth = betterAuth({
 	secret: serverEnv.BETTER_AUTH_SECRET,
 	database: prismaAdapter(prisma, {
-		provider: "sqlite", // or "mysql", "postgresql", ...etc
+		provider: "postgresql", // or "mysql", "postgresql", ...etc
 	}),
 	plugins: [nextCookies()],
 	emailAndPassword: {

@@ -1,13 +1,17 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import s3Client from "@/lib/s3Client";
 import { revalidatePath } from "next/cache";
-import { rm } from "node:fs/promises";
 
 const deleteWallpaper = async (id: string, imageName: string) => {
 	//
 	try {
-		await rm(`./public/upload/wallpaper/${imageName}`);
+		// await rm(`./public/upload/wallpaper/${imageName}`);
+		await s3Client.deleteObject({
+			Bucket: "wps3",
+			Key: imageName,
+		});
 
 		await prisma.wallpaper.delete({
 			where: {

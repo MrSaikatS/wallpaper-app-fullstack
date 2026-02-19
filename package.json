@@ -13,9 +13,10 @@
 		"studio": "prisma studio --browser none"
 	},
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.993.0",
 		"@hookform/resolvers": "^5.2.2",
 		"@node-rs/argon2": "^2.0.2",
-		"@prisma/adapter-libsql": "^7.4.0",
+		"@prisma/adapter-pg": "^7.4.0",
 		"@prisma/client": "^7.4.0",
 		"@radix-ui/react-avatar": "^1.1.11",
 		"@radix-ui/react-checkbox": "^1.3.3",
@@ -29,8 +30,8 @@
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
 		"dotenv": "^17.3.1",
-		"jotai": "^2.17.1",
-		"lucide-react": "^0.564.0",
+		"jotai": "^2.18.0",
+		"lucide-react": "^0.574.0",
 		"nanoid": "^5.1.6",
 		"next": "^16.1.6",
 		"next-themes": "^0.4.6",
@@ -40,13 +41,13 @@
 		"react-hook-form": "^7.71.1",
 		"react-toastify": "^11.0.5",
 		"sharp": "^0.34.5",
-		"tailwind-merge": "^3.4.0",
+		"tailwind-merge": "^3.5.0",
 		"use-file-picker": "^2.1.4",
 		"zod": "^4.3.6"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "^4.1.18",
-		"@types/node": "^25.2.3",
+		"@tailwindcss/postcss": "^4.2.0",
+		"@types/node": "^25.3.0",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
 		"babel-plugin-react-compiler": "^1.0.0",
@@ -56,7 +57,7 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-tailwindcss": "^0.7.2",
 		"prisma": "^7.4.0",
-		"tailwindcss": "^4.1.18",
+		"tailwindcss": "^4.2.0",
 		"tw-animate-css": "^1.4.0",
 		"typescript": "5.9.3"
 	},

@@ -1,6 +1,7 @@
 "use server";
 
 import prisma from "@/lib/prisma";
+import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { rm } from "node:fs/promises";
@@ -16,7 +17,7 @@ const createWallpaper = async (
 	try {
 		const imgArrayBuffer = await filesContent.arrayBuffer();
 
-		await sharp(imgArrayBuffer)
+		const optimizedImageFile = await sharp(imgArrayBuffer)
 			.resize({
 				width: 640,
 				height: 360,
@@ -25,7 +26,16 @@ const createWallpaper = async (
 				quality: 87,
 				mozjpeg: true,
 			})
-			.toFile(`./public/upload/wallpaper/${imageName}`);
+			// .toFile(`./public/upload/wallpaper/${imageName}`);
+			.toBuffer();
+
+		await s3Client.putObject({
+			Bucket: "wps3",
+			Key: imageName,
+			Body: optimizedImageFile,
+			ContentType: "image/jpeg",
+			ACL: "public-read",
+		});
 
 		await prisma.wallpaper.create({
 			data: {

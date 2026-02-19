@@ -1,7 +1,6 @@
 import Link from "next/link";
 import ThemeToggleButton from "../../ThemeToggleButton";
 import AuthNavLink from "./AuthNavLink";
-import { HomeIcon } from "lucide-react";
 
 const Header = () => {
 	return (
@@ -18,10 +17,6 @@ const Header = () => {
 				</Link>
 
 				<nav className="flex items-center gap-4">
-					<Link href={"/"}>
-						<HomeIcon />
-					</Link>
-
 					<AuthNavLink />
 
 					<ThemeToggleButton />

@@ -14,6 +14,9 @@ export const metadata: Metadata = {
 	title: "Create | Wallpaper App",
 	description: "Create page of Wallpaper App",
 };
+
+export const dynamic = "force-dynamic";
+
 const page = async () => {
 	const allCategory = await prisma.category.findMany({
 		select: {

@@ -23,6 +23,7 @@ model User {
   wallpapers    Wallpaper[]
 
   @@unique([email])
+  @@index([createdAt])
   @@map("user")
 }
 
@@ -80,11 +81,19 @@ model Wallpaper {
   userId     String
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   categoryId String
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("wallpaper")
 }
 
 model Category {
   id         String      @id @default(uuid())
   name       String
   slug       String      @unique
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
   wallpapers Wallpaper[]
+
+  @@map("category")
 }

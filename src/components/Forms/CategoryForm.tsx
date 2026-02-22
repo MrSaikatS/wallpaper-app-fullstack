@@ -14,73 +14,74 @@ import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const CategoryForm = () => {
-	const setOpen = useSetAtom(dialogDrawerAtom);
+  const setOpen = useSetAtom(dialogDrawerAtom);
 
-	const {
-		handleSubmit,
-		control,
-		formState: { isSubmitting },
-		reset,
-	} = useForm({
-		resolver: zodResolver(createCategorySchema),
-		defaultValues: {
-			category: "",
-		},
-	});
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+    reset,
+  } = useForm({
+    resolver: zodResolver(createCategorySchema),
+    defaultValues: {
+      category: "",
+    },
+  });
 
-	const categoryHandeler = async ({ category }: CreateCategoryType) => {
-		const { isSuccess, message } = await createCategory(category);
+  const categoryHandler = async ({ category }: CreateCategoryType) => {
+    const { isSuccess, message } = await createCategory(category);
 
-		if (!isSuccess) {
-			toast.error(message);
-		}
+    if (!isSuccess) {
+      toast.error(message);
+    }
 
-		if (isSuccess) {
-			setOpen(false);
-			toast.success(message);
-			reset();
-		}
-	};
-	return (
-		<form
-			onSubmit={handleSubmit(categoryHandeler)}
-			className="grid gap-6"
-			noValidate>
-			{/* category field */}
-			<Controller
-				name="category"
-				control={control}
-				render={({ field, fieldState }) => (
-					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Category</FieldLabel>
-						<Input
-							{...field}
-							id={field.name}
-							aria-invalid={fieldState.invalid}
-							placeholder="Enter your category"
-							autoComplete="off"
-						/>
-						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-					</Field>
-				)}
-			/>
+    if (isSuccess) {
+      setOpen(false);
+      toast.success(message);
+      reset();
+    }
+  };
+  return (
+    <form
+      onSubmit={handleSubmit(categoryHandler)}
+      className="grid gap-6"
+      noValidate>
+      {/* category field */}
+      <Controller
+        name="category"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Category</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              placeholder="Enter your category"
+              autoComplete="off"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
 
-			<Button
-				className="w-full cursor-pointer"
-				type="submit"
-				disabled={isSubmitting}>
-				{isSubmitting ? (
-					<>
-						<Loader2Icon className="animate-spin" /> Submitting...
-					</>
-				) : (
-					<>
-						<UploadIcon /> Submit
-					</>
-				)}
-			</Button>
-		</form>
-	);
+      <Button
+        className="w-full cursor-pointer"
+        type="submit"
+        disabled={isSubmitting}>
+        {isSubmitting ?
+          <>
+            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+            Submitting...
+          </>
+        : <>
+            <UploadIcon className="mr-2 h-4 w-4" />
+            Submit
+          </>
+        }
+      </Button>
+    </form>
+  );
 };
 
 export default CategoryForm;

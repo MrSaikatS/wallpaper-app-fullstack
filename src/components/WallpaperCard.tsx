@@ -1,5 +1,6 @@
 "use client";
 
+import { clientEnv } from "@/lib/env/clientEnv";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,91 +10,95 @@ import { Button } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
 type WallpaperCardProp = {
-	wallpaper: Prisma.WallpaperGetPayload<{
-		include: {
-			user: true;
-			category: true;
-		};
-	}>;
+  wallpaper: Prisma.WallpaperGetPayload<{
+    include: {
+      user: true;
+      category: true;
+    };
+  }>;
 };
 
 const WallpaperCard = ({
-	wallpaper: {
-		image,
-		user,
-		createdAt,
-		id,
-		category: { slug, name },
-		userId,
-	},
+  wallpaper: {
+    image,
+    user,
+    createdAt,
+    id,
+    category: { slug, name },
+    userId,
+  },
 }: WallpaperCardProp) => {
-	return (
-		<Card>
-			<CardContent>
-				<div className="relative">
-					<Image
-						alt={image}
-						src={`/upload/wallpaper/${image}`}
-						height={360}
-						width={640}
-						className="h-84.5 w-150"
-					/>
+  return (
+    <Card>
+      <CardContent>
+        <div className="relative">
+          <Image
+            alt={image}
+            src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
+            height={360}
+            width={640}
+            className="h-84.5 w-150"
+          />
 
-					<div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
-						<div className="flex gap-3">
-							<Link href={`/${user.id}`}>
-								<Image
-									src={`/upload/avatar/${user.image}`}
-									alt={`${user.name}'s avatar`}
-									height={50}
-									width={50}
-									className="rounded-full border-4 border-amber-500"
-								/>
-							</Link>
+          <div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
+            <div className="flex gap-3">
+              <Link href={`/${user.id}`}>
+                <Image
+                  src={
+                    user.image ?
+                      `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}`
+                    : `https://placehold.co/50x50?text=Avatar`
+                  }
+                  alt={`${user.name}'s avatar`}
+                  height={50}
+                  width={50}
+                  className="rounded-full border-4 border-amber-500"
+                />
+              </Link>
 
-							<div className="text-foreground flex gap-3">
-								<div>
-									<div className="">{user.name}</div>
-									{slug && name ? (
-										<Link
-											href={`/category/${slug}`}
-											className="font-semibold">
-											#{name}
-										</Link>
-									) : (
-										<span className="text-muted-foreground font-semibold">
-											#uncategorized
-										</span>
-									)}
-								</div>
+              <div className="text-foreground flex gap-3">
+                <div>
+                  <div className="">{user.name}</div>
+                  {slug && name ?
+                    <Link
+                      href={`/category/${slug}`}
+                      className="font-semibold">
+                      #{name}
+                    </Link>
+                  : <span className="text-muted-foreground font-semibold">
+                      #uncategorized
+                    </span>
+                  }
+                </div>
 
-								<div>
-									{formatDistanceToNow(new Date(createdAt), {
-										addSuffix: true,
-										includeSeconds: true,
-									})}
-								</div>
-							</div>
-						</div>
+                <div>
+                  {formatDistanceToNow(new Date(createdAt), {
+                    addSuffix: true,
+                    includeSeconds: true,
+                  })}
+                </div>
+              </div>
+            </div>
 
-						<Button asChild>
-							<a
-								href={`/upload/wallpaper/${image}`}
-								download>
-								Download
-							</a>
-						</Button>
-					</div>
+            <Button asChild>
+              <a
+                href={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
+                target="_blank"
+                download>
+                Download
+              </a>
+            </Button>
+          </div>
 
-					<DeleteWallpaperButton
-						wallpaperId={id}
-						wallpaperImg={image}
-						wallpaperOwnerId={userId}
-					/>
-				</div>
-			</CardContent>
-		</Card>
-	);
+          <DeleteWallpaperButton
+            wallpaperId={id}
+            wallpaperImg={image}
+            wallpaperOwnerId={userId}
+          />
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default WallpaperCard;

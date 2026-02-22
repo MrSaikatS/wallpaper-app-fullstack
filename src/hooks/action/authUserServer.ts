@@ -13,10 +13,7 @@ const authUserServer = async () => {
 		return redirect("/auth/login");
 	}
 
-	return {
-		name: session.user.name,
-		image: session.user.image as string,
-	};
+	return session.user;
 };
 
 export default authUserServer;

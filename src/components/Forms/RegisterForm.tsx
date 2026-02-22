@@ -13,138 +13,137 @@ import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
 
 const RegisterForm = () => {
-	const { replace } = useRouter();
+  const { replace } = useRouter();
 
-	const {
-		handleSubmit,
-		control,
-		formState: { isSubmitting },
-		reset,
-	} = useForm({
-		resolver: zodResolver(registerSchema),
-		defaultValues: {
-			email: "",
-			password: "",
-			name: "",
-			confirmPassword: "",
-		},
-		mode: "all",
-	});
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting },
+    reset,
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      name: "",
+      confirmPassword: "",
+    },
+    mode: "all",
+  });
 
-	const registerHandeler = async (rData: RegisterType) => {
-		const { isSuccess, message } = await userSignUp(rData);
+  const registerHandeler = async (rData: RegisterType) => {
+    const { isSuccess, message } = await userSignUp(rData);
 
-		if (!isSuccess) {
-			toast.error(message);
-		}
+    if (!isSuccess) {
+      toast.error(message);
+    }
 
-		if (isSuccess) {
-			toast.success(message);
+    if (isSuccess) {
+      toast.success(message);
 
-			reset();
+      reset();
 
-			replace(`/studio`);
-		}
-	};
+      replace(`/auth`);
+    }
+  };
 
-	return (
-		<form
-			onSubmit={handleSubmit(registerHandeler)}
-			className="grid gap-6"
-			noValidate>
-			{/* Name field */}
-			<Controller
-				name="name"
-				control={control}
-				render={({ field, fieldState }) => (
-					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Name</FieldLabel>
-						<Input
-							{...field}
-							id={field.name}
-							aria-invalid={fieldState.invalid}
-							placeholder="Enter your name"
-							autoComplete="name"
-						/>
-						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-					</Field>
-				)}
-			/>
-			{/* Name field */}
-			<Controller
-				name="email"
-				control={control}
-				render={({ field, fieldState }) => (
-					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Email</FieldLabel>
-						<Input
-							{...field}
-							id={field.name}
-							aria-invalid={fieldState.invalid}
-							placeholder="Enter your email"
-							autoComplete="email"
-						/>
-						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-					</Field>
-				)}
-			/>
+  return (
+    <form
+      onSubmit={handleSubmit(registerHandeler)}
+      className="grid gap-6"
+      noValidate>
+      {/* Name field */}
+      <Controller
+        name="name"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Name</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              placeholder="Enter your name"
+              autoComplete="name"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+      {/* Email field */}
+      <Controller
+        name="email"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              placeholder="Enter your email"
+              autoComplete="email"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
 
-			{/* Password field */}
-			<Controller
-				name="password"
-				control={control}
-				render={({ field, fieldState }) => (
-					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Password</FieldLabel>
-						<Input
-							{...field}
-							id={field.name}
-							aria-invalid={fieldState.invalid}
-							type="password"
-							placeholder="Enter your password"
-							autoComplete="current-password"
-						/>
-						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-					</Field>
-				)}
-			/>
+      {/* Password field */}
+      <Controller
+        name="password"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              type="password"
+              placeholder="Enter your password"
+              autoComplete="current-password"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
 
-			{/* Confirm password field */}
-			<Controller
-				name="confirmPassword"
-				control={control}
-				render={({ field, fieldState }) => (
-					<Field data-invalid={fieldState.invalid}>
-						<FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
-						<Input
-							{...field}
-							id={field.name}
-							aria-invalid={fieldState.invalid}
-							type="password"
-							placeholder="Confirm password"
-							autoComplete="current-password"
-						/>
-						{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-					</Field>
-				)}
-			/>
+      {/* Confirm password field */}
+      <Controller
+        name="confirmPassword"
+        control={control}
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Confirm Password</FieldLabel>
+            <Input
+              {...field}
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              type="password"
+              placeholder="Confirm password"
+              autoComplete="current-password"
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
 
-			<Button
-				className="w-full cursor-pointer"
-				type="submit"
-				disabled={isSubmitting}>
-				{isSubmitting ? (
-					<>
-						<Loader2Icon className="animate-spin" /> Submitting..
-					</>
-				) : (
-					<>
-						<LockIcon /> Submit
-					</>
-				)}
-			</Button>
-		</form>
-	);
+      <Button
+        className="w-full cursor-pointer"
+        type="submit"
+        disabled={isSubmitting}>
+        {isSubmitting ?
+          <>
+            <Loader2Icon className="mr-2 h-4 w-4 animate-spin" /> Submitting..
+          </>
+        : <>
+            <LockIcon className="mr-2 h-4 w-4" /> Submit
+          </>
+        }
+      </Button>
+    </form>
+  );
 };
 
 export default RegisterForm;

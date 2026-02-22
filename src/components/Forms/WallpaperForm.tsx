@@ -17,161 +17,163 @@ import { Prisma } from "../../../generated/prisma/client";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "../shadcnui/select";
 
 export type WallpaperFormProps = {
-	categoryArray: Prisma.CategoryGetPayload<{
-		select: {
-			id: true;
-			name: true;
-		};
-	}>[];
+  categoryArray: Prisma.CategoryGetPayload<{
+    select: {
+      id: true;
+      name: true;
+    };
+  }>[];
 };
 
 const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
-	const [isFile, setIsFile] = useState(false);
+  const [isFile, setIsFile] = useState(false);
 
-	const { push } = useRouter();
+  const { push } = useRouter();
 
-	const { openFilePicker, filesContent, plainFiles } = useFilePicker({
-		readAs: "DataURL",
-		accept: "image/*",
-		multiple: false,
-		validators: [
-			new FileSizeValidator({
-				maxFileSize: 5 * 1024 * 1024,
-			}),
-		],
+  const { openFilePicker, filesContent, plainFiles } = useFilePicker({
+    readAs: "DataURL",
+    accept: "image/*",
+    multiple: false,
+    validators: [
+      new FileSizeValidator({
+        maxFileSize: 5 * 1024 * 1024,
+      }),
+    ],
 
-		onFilesSuccessfullySelected: () => setIsFile(true),
-		onClear: () => setIsFile(false),
-	});
+    onFilesSuccessfullySelected: () => setIsFile(true),
+    onClear: () => setIsFile(false),
+  });
 
-	const {
-		handleSubmit,
-		control,
-		formState: { isSubmitting, isDirty },
-	} = useForm({
-		resolver: zodResolver(categorySchema),
-		defaultValues: {
-			category: "",
-		},
-		mode: "all",
-	});
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitting, isDirty },
+  } = useForm({
+    resolver: zodResolver(categorySchema),
+    defaultValues: {
+      category: "",
+    },
+    mode: "all",
+  });
 
-	const categoryHandeler = async ({ category }: CategoryType) => {
-		const { data } = await authClient.getSession();
+  const categoryHandeler = async ({ category }: CategoryType) => {
+    const { data } = await authClient.getSession();
 
-		if (data === null) {
-			return;
-		}
+    if (data === null) {
+      return;
+    }
 
-		const {
-			user: { id },
-		} = data;
+    const {
+      user: { id },
+    } = data;
 
-		const { isSuccess, message } = await createWallpaper(
-			category,
-			plainFiles[0],
-			id,
-		);
+    const { isSuccess, message } = await createWallpaper(
+      category,
+      plainFiles[0],
+      id,
+    );
 
-		if (!isSuccess) {
-			toast.error(message);
-		}
+    if (!isSuccess) {
+      toast.error(message);
+    }
 
-		if (isSuccess) {
-			toast.success(message);
-			push("/studio");
-		}
-	};
+    if (isSuccess) {
+      toast.success(message);
+      push("/studio");
+    }
+  };
 
-	return (
-		<div className="grid gap-4">
-			{!isFile && (
-				<Image
-					src={"https://placehold.co/1920x1080"}
-					alt="Avatar Image"
-					width={640}
-					height={360}
-					className="aspect-video h-90 w-160 rounded-sm object-cover"
-				/>
-			)}
+  return (
+    <div className="grid gap-4">
+      {!isFile && (
+        <Image
+          src={"https://placehold.co/1920x1080"}
+          alt="Avatar Image"
+          width={640}
+          height={360}
+          className="aspect-video h-90 w-160 rounded-sm object-cover"
+        />
+      )}
 
-			{filesContent.map((file, idx) => (
-				<Image
-					key={idx}
-					src={file.content}
-					alt={file.name}
-					width={640}
-					height={360}
-					className="aspect-video h-90 w-160 rounded-sm object-cover"
-				/>
-			))}
+      {filesContent.map((file, idx) => (
+        <Image
+          key={idx}
+          src={file.content}
+          alt={file.name}
+          width={640}
+          height={360}
+          className="aspect-video h-90 w-160 rounded-sm object-cover"
+        />
+      ))}
 
-			<div
-				className={`grid ${isFile ? "grid-cols-1" : "grid-cols-1"} mt-4 gap-4`}>
-				<Button
-					className="cursor-pointer"
-					variant={"outline"}
-					onClick={openFilePicker}>
-					<ImagesIcon />
-					Choose Image
-				</Button>
-			</div>
+      <div
+        className={`grid ${isFile ? "grid-cols-1" : "grid-cols-1"} mt-4 gap-4`}>
+        <Button
+          className="cursor-pointer"
+          variant={"outline"}
+          onClick={openFilePicker}>
+          <ImagesIcon className="mr-2 h-4 w-4" />
+          Choose Image
+        </Button>
+      </div>
 
-			<form
-				onSubmit={handleSubmit(categoryHandeler)}
-				className="grid gap-6"
-				noValidate>
-				{/* category field */}
-				<Controller
-					name="category"
-					control={control}
-					render={({ field, fieldState }) => (
-						<Field data-invalid={fieldState.invalid}>
-							<FieldLabel htmlFor={field.name}>Category</FieldLabel>
-							<Select
-								onValueChange={field.onChange}
-								defaultValue={field.value}>
-								<SelectTrigger>
-									<SelectValue placeholder="Choose category" />
-								</SelectTrigger>
-								<SelectContent>
-									{categoryArray.map(({ id, name }) => (
-										<SelectItem
-											key={id}
-											value={id}>
-											{name}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-							{fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-						</Field>
-					)}
-				/>
+      <form
+        onSubmit={handleSubmit(categoryHandeler)}
+        className="grid gap-6"
+        noValidate>
+        {/* category field */}
+        <Controller
+          name="category"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Category</FieldLabel>
+              <Select
+                onValueChange={field.onChange}
+                value={field.value}>
+                <SelectTrigger>
+                  <SelectValue>
+                    {field.value === "" ?
+                      "Choose a category"
+                    : categoryArray.find((cat) => cat.id === field.value)?.name}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  {categoryArray.map(({ id, name }) => (
+                    <SelectItem
+                      key={id}
+                      value={id}>
+                      {name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-				<Button
-					className="w-full cursor-pointer"
-					type="submit"
-					disabled={!isFile || isSubmitting || !isDirty}>
-					{isSubmitting ? (
-						<>
-							<Loader2Icon className="animate-spin" /> Creating...
-						</>
-					) : (
-						<>Create</>
-					)}
-				</Button>
-			</form>
-		</div>
-	);
+        <Button
+          className="w-full cursor-pointer"
+          type="submit"
+          disabled={!isFile || isSubmitting || !isDirty}>
+          {isSubmitting ?
+            <>
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" /> Creating...
+            </>
+          : <>Create</>}
+        </Button>
+      </form>
+    </div>
+  );
 };
 
 export default WallpaperForm;

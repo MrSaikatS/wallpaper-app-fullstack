@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/Forms/RegisterForm";
+import LoginForm from "@/components/Forms/LoginForm";
 import {
   Card,
   CardContent,
@@ -11,8 +11,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Register | Wallpaper App",
-  description: "Register page of Wallpaper App",
+  title: "Login | Wallpaper App",
+  description: "Login page of Wallpaper App",
 };
 
 const Page = () => {
@@ -21,24 +21,24 @@ const Page = () => {
       <Card className="w-sm">
         <CardHeader className="gap-3">
           <CardTitle className="text-center text-3xl font-semibold">
-            Create Account
+            Welcome back
           </CardTitle>
 
           <CardDescription className="text-center text-lg leading-5">
-            Enter your details below to register your account.
+            Enter your email below to login to your account
           </CardDescription>
         </CardHeader>
 
         <CardContent>
-          <RegisterForm />
+          <LoginForm />
         </CardContent>
 
         <CardFooter className="justify-center">
-          Already have an account?
+          Don&apos;t have an account?
           <Link
-            href={"/auth"}
+            href={"/auth/register"}
             className="mx-1 text-blue-600 underline">
-            Login
+            Create
           </Link>
           now
         </CardFooter>

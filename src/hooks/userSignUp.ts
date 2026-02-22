@@ -2,32 +2,32 @@ import { authClient } from "@/lib/betterAuth/auth-client";
 import { RegisterType } from "@/lib/types";
 
 const userSignUp = async ({ name, email, password }: RegisterType) => {
-	try {
-		const { error } = await authClient.signUp.email({
-			name,
-			email,
-			password,
-		});
+  try {
+    const { error } = await authClient.signUp.email({
+      name,
+      email,
+      password,
+    });
 
-		if (error) {
-			return {
-				isSuccess: false,
-				message: error.message,
-			};
-		}
+    if (error) {
+      return {
+        isSuccess: false,
+        message: error.message,
+      };
+    }
 
-		return {
-			isSuccess: true,
-			message: "User Registration Successfully 👍",
-		};
-	} catch (error) {
-		console.log(error);
+    return {
+      isSuccess: true,
+      message: "User Registration Successfully 👍",
+    };
+  } catch (error) {
+    console.error("Sign up error:", error);
 
-		return {
-			isSuccess: false,
-			message: "User Registration Failed 🥲",
-		};
-	}
+    return {
+      isSuccess: false,
+      message: "User Registration Failed 🥲",
+    };
+  }
 };
 
 export default userSignUp;

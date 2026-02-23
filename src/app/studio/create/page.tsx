@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/shadcnui/card";
 import prisma from "@/lib/prisma";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Create | Wallpaper App",

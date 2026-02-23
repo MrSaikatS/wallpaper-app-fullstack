@@ -44,12 +44,17 @@ const Page = async ({ params }: ProfilePageProps) => {
 
   return (
     <section className="grid grid-cols-2 place-items-center gap-4">
-      {userWallpapers.map((data) => (
-        <WallpaperCard
-          key={data.id}
-          wallpaper={data}
-        />
-      ))}
+      {userWallpapers.length === 0 ?
+        <p className="col-span-full text-center text-gray-500">
+          No wallpapers found 🙂
+        </p>
+      : userWallpapers.map((data) => (
+          <WallpaperCard
+            key={data.id}
+            wallpaper={data}
+          />
+        ))
+      }
     </section>
   );
 };

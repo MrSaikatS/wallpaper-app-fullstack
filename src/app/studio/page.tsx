@@ -2,7 +2,7 @@ import PaginationQuery from "@/components/PaginationQuery";
 import WallpaperCard from "@/components/WallpaperCard";
 import { auth } from "@/lib/betterAuth/auth";
 import prisma from "@/lib/prisma";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

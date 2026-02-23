@@ -1,7 +1,7 @@
 import PaginationQuery from "@/components/PaginationQuery";
 import WallpaperCard from "@/components/WallpaperCard";
 import prisma from "@/lib/prisma";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Home | Wallpaper App",

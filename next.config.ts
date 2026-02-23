@@ -23,6 +23,9 @@ const nextConfig: NextConfig = {
       },
     ],
     dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy:
+      "default-src 'none'; img-src 'self' https://placehold.co https://wps3.sgp1.cdn.digitaloceanspaces.com; script-src 'none'; style-src 'unsafe-inline'; sandbox;",
   },
 };
 

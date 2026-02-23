@@ -44,7 +44,7 @@ const Page = async ({ params }: ProfilePageProps) => {
 
   return (
     <section className="grid grid-cols-2 place-items-center gap-4">
-      {userWallpapers?.map((data) => (
+      {userWallpapers.map((data) => (
         <WallpaperCard
           key={data.id}
           wallpaper={data}

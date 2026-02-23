@@ -14,13 +14,11 @@ type ProfileFormProps = {
   userName: string;
 };
 
-const ProfileForm = ({ userName }: ProfileFormProps) => {
-  const nameSchema = z.object({
-    name: z
-      .string()
-      .min(2, { error: "Name must be minimum 2 characters long" }),
-  });
+const nameSchema = z.object({
+  name: z.string().min(2, { error: "Name must be minimum 2 characters long" }),
+});
 
+const ProfileForm = ({ userName }: ProfileFormProps) => {
   const {
     handleSubmit,
     control,

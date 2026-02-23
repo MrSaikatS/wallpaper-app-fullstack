@@ -1,5 +1,6 @@
 "use server";
 
+import { serverEnv } from "@/lib/env/serverEnv";
 import prisma from "@/lib/prisma";
 import s3Client from "@/lib/s3Client";
 import { nanoid } from "nanoid";
@@ -29,7 +30,7 @@ const createWallpaper = async (
       .toBuffer();
 
     await s3Client.putObject({
-      Bucket: "wps3",
+      Bucket: serverEnv.SPACES_BUCKET_NAME,
       Key: imageName,
       Body: optimizedImageFile,
       ContentType: "image/jpeg",
@@ -53,11 +54,21 @@ const createWallpaper = async (
   } catch (error) {
     console.error("Create wallpaper error:", error);
 
+    // Clean up uploaded S3 object if database creation failed
+    try {
+      await s3Client.deleteObject({
+        Bucket: serverEnv.SPACES_BUCKET_NAME,
+        Key: imageName,
+      });
+    } catch (deleteError) {
+      console.error("Failed to delete S3 object:", deleteError);
+    }
+
     // await rm(`./public/upload/wallpaper/${imageName}`);
 
     return {
       isSuccess: false,
-      message: " Internal server error 🥲",
+      message: "Internal server error 🥲",
     };
   }
 };

@@ -14,6 +14,8 @@ type PageProps = {
   }>;
 };
 
+const PAGE_SIZE = 4;
+
 const Page = async ({ searchParams }: PageProps) => {
   const { page } = await searchParams;
   const pageNumber = Math.max(1, Math.floor(Number(page) || 1));
@@ -21,17 +23,23 @@ const Page = async ({ searchParams }: PageProps) => {
   const [allWallpapers, pageCount] = await Promise.all([
     prisma.wallpaper.findMany({
       include: {
-        user: true,
+        user: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
+          },
+        },
         category: true,
       },
       orderBy: { createdAt: "desc" },
-      take: 4,
-      skip: (pageNumber - 1) * 4,
+      take: PAGE_SIZE,
+      skip: (pageNumber - 1) * PAGE_SIZE,
     }),
     prisma.wallpaper.count(),
   ]);
 
-  const totalPage = Math.ceil(pageCount / 4);
+  const totalPage = Math.ceil(pageCount / PAGE_SIZE);
 
   return (
     <>

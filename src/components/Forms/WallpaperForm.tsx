@@ -114,8 +114,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
         />
       ))}
 
-      <div
-        className={`grid ${isFile ? "grid-cols-1" : "grid-cols-1"} mt-4 gap-4`}>
+      <div className="mt-4 grid">
         <Button
           className="cursor-pointer"
           variant={"outline"}

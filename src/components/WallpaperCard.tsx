@@ -6,13 +6,19 @@ import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "../../generated/prisma/client";
 import DeleteWallpaperButton from "./Buttons/DeleteWallpaperButton";
-import { Button } from "./shadcnui/button";
+import { buttonVariants } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
 type WallpaperCardProp = {
   wallpaper: Prisma.WallpaperGetPayload<{
     include: {
-      user: true;
+      user: {
+        select: {
+          id: true;
+          name: true;
+          image: true;
+        };
+      };
       category: true;
     };
   }>;
@@ -33,7 +39,7 @@ const WallpaperCard = ({
       <CardContent>
         <div className="relative">
           <Image
-            alt={image}
+            alt={`${name} wallpaper`}
             src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
             height={360}
             width={640}
@@ -80,14 +86,12 @@ const WallpaperCard = ({
               </div>
             </div>
 
-            <Button asChild>
-              <a
-                href={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
-                target="_blank"
-                download>
-                Download
-              </a>
-            </Button>
+            <a
+              href={`/api/download?image=${encodeURIComponent(image)}`}
+              className={buttonVariants()}
+              download>
+              Download
+            </a>
           </div>
 
           <DeleteWallpaperButton

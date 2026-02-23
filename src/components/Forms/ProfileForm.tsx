@@ -31,20 +31,19 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
     mode: "all",
   });
 
-  const nameHandeler = async ({ name }: z.infer<typeof nameSchema>) => {
+  const nameHandler = async ({ name }: z.infer<typeof nameSchema>) => {
     const { isSuccess, message } = await updateProfileDetails(name);
 
     if (!isSuccess) {
       toast.error(message);
-    }
-    if (isSuccess) {
+    } else {
       toast.success(message);
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit(nameHandeler)}
+      onSubmit={handleSubmit(nameHandler)}
       className="grid gap-6"
       noValidate>
       {/* Name field */}
@@ -69,7 +68,7 @@ const ProfileForm = ({ userName }: ProfileFormProps) => {
       <Button
         className="w-full cursor-pointer"
         type="submit"
-        disabled={!isDirty}>
+        disabled={!isDirty || isSubmitting}>
         {isSubmitting ?
           <>
             <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />

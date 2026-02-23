@@ -29,18 +29,22 @@ const CategoryForm = () => {
   });
 
   const categoryHandler = async ({ category }: CreateCategoryType) => {
-    const { isSuccess, message } = await createCategory(category);
+    try {
+      const { isSuccess, message } = await createCategory(category);
 
-    if (!isSuccess) {
-      toast.error(message);
-    }
+      if (!isSuccess) {
+        toast.error(message);
+        return;
+      }
 
-    if (isSuccess) {
       setOpen(false);
       toast.success(message);
       reset();
+    } catch (error: any) {
+      toast.error(error.message || "An unexpected error occurred");
     }
   };
+
   return (
     <form
       onSubmit={handleSubmit(categoryHandler)}

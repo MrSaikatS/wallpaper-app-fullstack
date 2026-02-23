@@ -102,7 +102,7 @@ const RegisterForm = () => {
               aria-invalid={fieldState.invalid}
               type="password"
               placeholder="Enter your password"
-              autoComplete="current-password"
+              autoComplete="new-password"
             />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
@@ -122,7 +122,7 @@ const RegisterForm = () => {
               aria-invalid={fieldState.invalid}
               type="password"
               placeholder="Confirm password"
-              autoComplete="current-password"
+              autoComplete="new-password"
             />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>

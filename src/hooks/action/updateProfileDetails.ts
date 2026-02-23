@@ -8,7 +8,7 @@ const updateProfileDetails = async (name: string) => {
   try {
     await auth.api.updateUser({
       body: {
-        name: name,
+        name,
       },
       headers: await headers(),
     });

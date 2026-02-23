@@ -18,9 +18,7 @@ const LogoutButton = () => {
 
         if (error) {
           toast.error(error.message);
-        }
-
-        if (!error) {
+        } else {
           toast.success("User Logout Successfully 👍");
           push("/auth");
         }

@@ -10,9 +10,23 @@ const userSignIn = async ({ email, password, rememberMe }: LoginType) => {
     });
 
     if (error) {
+      const errorMessages: Record<string, string> = {
+        INVALID_CREDENTIALS: "Invalid email or password",
+        EMAIL_NOT_VERIFIED: "Please verify your email before signing in",
+        ACCOUNT_NOT_FOUND: "Account not found",
+        // Add more error codes as needed
+      };
+
+      const sanitizedMessage =
+        error.code && errorMessages[error.code] ?
+          errorMessages[error.code]
+        : "Sign-in failed, please try again";
+
+      console.error("Sign in error details:", error);
+
       return {
         isSuccess: false,
-        message: error.message,
+        message: sanitizedMessage,
       };
     }
 

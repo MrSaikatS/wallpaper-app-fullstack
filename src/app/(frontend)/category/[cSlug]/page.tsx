@@ -47,12 +47,17 @@ const Page = async ({ params }: CategoryPageProps) => {
 
   return (
     <section className="grid grid-cols-2 place-items-center gap-4">
-      {categoryWallpapers.map((data) => (
-        <WallpaperCard
-          key={data.id}
-          wallpaper={data}
-        />
-      ))}
+      {categoryWallpapers.length === 0 ?
+        <p className="col-span-full text-center text-gray-500">
+          No wallpapers found 🙂
+        </p>
+      : categoryWallpapers.map((data) => (
+          <WallpaperCard
+            key={data.id}
+            wallpaper={data}
+          />
+        ))
+      }
     </section>
   );
 };

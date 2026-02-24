@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+const PAGE_SIZE = 4;
+
 export const metadata: Metadata = {
   title: "Private Wallpaper | Wallpaper App",
   description: "Private Wallpaper page of Wallpaper App",
@@ -39,8 +41,8 @@ const Page = async ({ searchParams }: PageProps) => {
         userId: session.user.id,
       },
       orderBy: { createdAt: "desc" },
-      take: 4,
-      skip: (pageNumber - 1) * 4,
+      take: PAGE_SIZE,
+      skip: (pageNumber - 1) * PAGE_SIZE,
     }),
     prisma.wallpaper.count({
       where: {
@@ -49,7 +51,7 @@ const Page = async ({ searchParams }: PageProps) => {
     }),
   ]);
 
-  const totalPage = Math.ceil(pageCount / 4);
+  const totalPage = Math.ceil(pageCount / PAGE_SIZE);
 
   return (
     <>

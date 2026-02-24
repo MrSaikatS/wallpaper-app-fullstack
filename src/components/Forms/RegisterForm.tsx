@@ -31,12 +31,8 @@ const RegisterForm = () => {
     mode: "all",
   });
 
-  const registerHandeler = async (rData: RegisterType) => {
+  const registerHandler = async (rData: RegisterType) => {
     const { isSuccess, message } = await userSignUp(rData);
-
-    if (!isSuccess) {
-      toast.error(message);
-    }
 
     if (isSuccess) {
       toast.success(message);
@@ -44,12 +40,14 @@ const RegisterForm = () => {
       reset();
 
       replace(`/auth`);
+    } else {
+      toast.error(message);
     }
   };
 
   return (
     <form
-      onSubmit={handleSubmit(registerHandeler)}
+      onSubmit={handleSubmit(registerHandler)}
       className="grid gap-6"
       noValidate>
       {/* Name field */}

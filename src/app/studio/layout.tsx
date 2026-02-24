@@ -1,10 +1,11 @@
 import Header from "@/components/Header/PrivateHeader/Header";
+import { ReactNode } from "react";
 
 type StudioLayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-const StudioLayout = async ({ children }: StudioLayoutProps) => {
+const StudioLayout = ({ children }: StudioLayoutProps) => {
   return (
     <>
       <Header />

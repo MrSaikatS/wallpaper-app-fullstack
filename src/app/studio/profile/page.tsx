@@ -30,7 +30,7 @@ const Page = async () => {
   return (
     <section className="flex h-[80dvh] flex-col items-center justify-center gap-4">
       <Card className="w-sm">
-        <CardHeader className="">
+        <CardHeader>
           <CardTitle className="text-center text-3xl font-semibold">
             Profile Picture
           </CardTitle>
@@ -42,7 +42,7 @@ const Page = async () => {
       </Card>
 
       <Card className="w-sm">
-        <CardHeader className="">
+        <CardHeader>
           <CardTitle className="text-center text-3xl font-semibold">
             Profile Details
           </CardTitle>

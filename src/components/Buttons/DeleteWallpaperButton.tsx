@@ -31,13 +31,19 @@ const DeleteWallpaperButton = ({
   const [isLoading, setIsLoading] = useState(false);
   const { data } = authClient.useSession();
 
-  // Safely extract user id without conditional returns after hooks
-  const userId = data?.user?.id;
-  const isOwner = userId === wallpaperOwnerId;
-  const shouldRender = data && isOwner;
+  if (!data) {
+    return null;
+  }
+
+  const shouldRender = data.user.id === wallpaperOwnerId;
+
+  if (!shouldRender) {
+    return null;
+  }
 
   const wallpaperDeleteHandler = async () => {
     setIsLoading(true);
+
     try {
       const { isSuccess, message } = await deleteWallpaper(
         wallpaperId,
@@ -56,11 +62,6 @@ const DeleteWallpaperButton = ({
       setIsLoading(false);
     }
   };
-
-  // Conditional return after all hooks and logic are defined
-  if (!shouldRender) {
-    return null;
-  }
 
   return (
     <Dialog>
@@ -81,9 +82,7 @@ const DeleteWallpaperButton = ({
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+          <DialogClose render={<Button variant="outline">Cancel</Button>} />
           <Button
             onClick={wallpaperDeleteHandler}
             disabled={isLoading}

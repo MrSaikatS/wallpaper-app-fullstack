@@ -1,51 +1,35 @@
-import { Button } from "@/components/shadcnui/button";
-import { auth } from "@/lib/betterAuth/auth";
-import { headers } from "next/headers";
+"use client";
+
+import { buttonVariants } from "@/components/shadcnui/button";
+import { authClient } from "@/lib/betterAuth/auth-client";
 import Link from "next/link";
 
-const AuthNavLink = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+const AuthNavLink = () => {
+  const { data } = authClient.useSession();
 
-  if (session) {
+  if (data) {
     return (
-      <Button
-        variant={"outline"}
-        size={"sm"}
-        asChild>
-        <Link
-          href="/studio"
-          className="hover:underline">
-          Dashboard
-        </Link>
-      </Button>
+      <Link
+        href="/studio"
+        className={`hover:underline ${buttonVariants({ variant: "outline", size: "sm" })}`}>
+        Dashboard
+      </Link>
     );
   }
 
   return (
     <>
-      <Button
-        variant={"outline"}
-        size={"sm"}
-        asChild>
-        <Link
-          href="/auth"
-          className="hover:underline">
-          Login
-        </Link>
-      </Button>
+      <Link
+        href="/auth"
+        className={`hover:underline ${buttonVariants({ variant: "outline", size: "sm" })}`}>
+        Login
+      </Link>
 
-      <Button
-        variant={"outline"}
-        size={"sm"}
-        asChild>
-        <Link
-          href="/auth/register"
-          className="hover:underline">
-          Register
-        </Link>
-      </Button>
+      <Link
+        href="/auth/register"
+        className={`hover:underline ${buttonVariants({ variant: "outline", size: "sm" })}`}>
+        Register
+      </Link>
     </>
   );
 };

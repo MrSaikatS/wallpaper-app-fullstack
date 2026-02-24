@@ -31,7 +31,7 @@ const LoginForm = () => {
     mode: "all",
   });
 
-  const loginHandeler = async (lData: LoginType) => {
+  const loginHandler = async (lData: LoginType) => {
     const { isSuccess, message } = await userSignIn(lData);
 
     if (!isSuccess) {
@@ -49,7 +49,7 @@ const LoginForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(loginHandeler)}
+      onSubmit={handleSubmit(loginHandler)}
       className="grid gap-6"
       noValidate>
       {/* Email field */}
@@ -101,7 +101,7 @@ const LoginForm = () => {
             orientation={"horizontal"}>
             <Checkbox
               checked={field.value}
-              onCheckedChange={field.onChange}
+              onCheckedChange={(checked) => field.onChange(checked)}
               className="cursor-pointer"
             />
             <FieldLabel htmlFor={field.name}>Keep me signed in</FieldLabel>

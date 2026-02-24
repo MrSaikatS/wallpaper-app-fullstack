@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ImagesIcon, Loader2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useFilePicker } from "use-file-picker";
@@ -64,11 +64,12 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
     mode: "all",
   });
 
-  const categoryHandeler = async ({ category }: CategoryType) => {
+  const categoryHandler = async ({ category }: CategoryType) => {
     const { data } = await authClient.getSession();
 
     if (data === null) {
-      return;
+      toast.error("Session expired");
+      return push("/auth");
     }
 
     const {
@@ -83,9 +84,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
 
     if (!isSuccess) {
       toast.error(message);
-    }
-
-    if (isSuccess) {
+    } else {
       toast.success(message);
       push("/studio");
     }
@@ -125,39 +124,45 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
       </div>
 
       <form
-        onSubmit={handleSubmit(categoryHandeler)}
+        onSubmit={handleSubmit(categoryHandler)}
         className="grid gap-6"
         noValidate>
         {/* category field */}
         <Controller
           name="category"
           control={control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Category</FieldLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}>
-                <SelectTrigger>
-                  <SelectValue>
-                    {field.value === "" ?
-                      "Choose a category"
-                    : categoryArray.find((cat) => cat.id === field.value)?.name}
-                  </SelectValue>
-                </SelectTrigger>
-                <SelectContent>
-                  {categoryArray.map(({ id, name }) => (
-                    <SelectItem
-                      key={id}
-                      value={id}>
-                      {name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
+          render={({ field, fieldState }) => {
+            const displayName = useMemo(() => {
+              return field.value === "" ?
+                  "Choose a category"
+                : categoryArray.find((cat) => cat.id === field.value)?.name;
+            }, [field.value, categoryArray]);
+
+            return (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>Category</FieldLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}>
+                  <SelectTrigger>
+                    <SelectValue>{displayName}</SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categoryArray.map(({ id, name }) => (
+                      <SelectItem
+                        key={id}
+                        value={id}>
+                        {name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            );
+          }}
         />
 
         <Button

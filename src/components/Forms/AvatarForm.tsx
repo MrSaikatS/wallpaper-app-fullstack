@@ -98,8 +98,7 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
         {isFile && (
           <Button
             onClick={handleImageSubmit}
-            disabled={isUploading}
-            className="cursor-pointer">
+            disabled={isUploading}>
             {isUploading ?
               <>
                 <Loader2Icon className="animate-spin" />

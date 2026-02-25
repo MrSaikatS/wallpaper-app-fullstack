@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 
   try {
     const command = new GetObjectCommand({
-      Bucket: "wps3",
+      Bucket: process.env.SPACES_BUCKET_NAME,
       Key: image,
       ResponseContentDisposition: `attachment; filename="${image}"`,
     });

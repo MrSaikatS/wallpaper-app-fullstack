@@ -1,6 +1,7 @@
 "use client";
 
 import updateProfileDetails from "@/hooks/action/updateProfileDetails";
+import { profileNameSchema } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, PencilLineIcon } from "lucide-react";
 import { Controller, useForm } from "react-hook-form";
@@ -14,24 +15,20 @@ type ProfileFormProps = {
   userName: string;
 };
 
-const nameSchema = z.object({
-  name: z.string().min(2, { error: "Name must be minimum 2 characters long" }),
-});
-
 const ProfileForm = ({ userName }: ProfileFormProps) => {
   const {
     handleSubmit,
     control,
     formState: { isSubmitting, isDirty },
   } = useForm({
-    resolver: zodResolver(nameSchema),
+    resolver: zodResolver(profileNameSchema),
     defaultValues: {
       name: userName,
     },
     mode: "all",
   });
 
-  const nameHandler = async ({ name }: z.infer<typeof nameSchema>) => {
+  const nameHandler = async ({ name }: z.infer<typeof profileNameSchema>) => {
     const { isSuccess, message } = await updateProfileDetails(name);
 
     if (!isSuccess) {

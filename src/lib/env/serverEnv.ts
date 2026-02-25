@@ -13,12 +13,12 @@ const serverEnvSchema = z.object({
 });
 
 const serverEnvVars = {
-  SPACES_ENDPOINT: process.env.SPACES_ENDPOINT,
-  SPACES_SECRET: process.env.SPACES_SECRET,
-  SPACES_KEY: process.env.SPACES_KEY,
+  DATABASE_URL: process.env.DATABASE_URL,
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
-  DATABASE_URL: process.env.DATABASE_URL,
+  SPACES_KEY: process.env.SPACES_KEY,
+  SPACES_SECRET: process.env.SPACES_SECRET,
+  SPACES_ENDPOINT: process.env.SPACES_ENDPOINT,
   SPACES_BUCKET_NAME: process.env.SPACES_BUCKET_NAME,
 };
 

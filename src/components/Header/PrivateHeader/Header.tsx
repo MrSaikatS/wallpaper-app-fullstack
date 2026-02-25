@@ -5,42 +5,47 @@ import { Suspense } from "react";
 import NavProfileImg from "./NavProfileImg";
 
 const Header = () => {
-	return (
-		<header
-			className="border-b shadow"
-			aria-label="app-header">
-			<div className="container mx-auto flex items-center justify-between px-6 py-3">
-				<Link href={"/"}>
-					<h1
-						className="text-2xl font-semibold"
-						aria-label="App Name">
-						DripWall 🫠
-					</h1>
-				</Link>
+  return (
+    <header
+      className="border-b shadow"
+      aria-label="app-header">
+      <div className="container mx-auto flex items-center justify-between px-6 py-3">
+        <Link href={"/"}>
+          <h1
+            className="text-2xl font-semibold"
+            aria-label="App Name">
+            DripWall 🫠
+          </h1>
+        </Link>
 
-				<nav className="flex items-center gap-4">
-					<Link
-						href={"/studio"}
-						className="hover:underline">
-						Dashboard
-					</Link>
-					<Link
-						href={"/studio/create"}
-						className="hover:underline">
-						Create
-					</Link>
-					<Link href={"/studio/profile"}>
-						<Suspense fallback={<div className="h-8.75 w-8.75"></div>}>
-							<NavProfileImg />
-						</Suspense>
-					</Link>
+        <nav className="flex items-center gap-4">
+          <Link
+            href={"/studio"}
+            className="hover:underline">
+            Dashboard
+          </Link>
+          <Link
+            href={"/studio/create"}
+            className="hover:underline">
+            Create
+          </Link>
+          <Link
+            href={"/studio/profile"}
+            aria-label="Profile">
+            <Suspense
+              fallback={
+                <div className="bg-muted h-8.75 w-8.75 animate-pulse rounded-full"></div>
+              }>
+              <NavProfileImg />
+            </Suspense>
+          </Link>
 
-					<LogoutButton />
-					<ThemeToggleButton />
-				</nav>
-			</div>
-		</header>
-	);
+          <LogoutButton />
+          <ThemeToggleButton />
+        </nav>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

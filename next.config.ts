@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "wps3.sgp1.cdn.digitaloceanspaces.com",
+        hostname: "wpfs.sgp1.cdn.digitaloceanspaces.com",
         pathname: "/**",
       },
     ],

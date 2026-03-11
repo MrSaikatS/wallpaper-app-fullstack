@@ -1,112 +1,108 @@
 "use client";
 
-import deleteWallpaper from "@/hooks/action/deleteWallpaper";
+import { clientEnv } from "@/lib/env/clientEnv";
 import { formatDistanceToNow } from "date-fns";
-import { Loader2Icon, Trash2Icon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
 import { Prisma } from "../../generated/prisma/client";
-import { Button } from "./shadcnui/button";
+import DeleteWallpaperButton from "./Buttons/DeleteWallpaperButton";
+import { buttonVariants } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
 type WallpaperCardProp = {
-	wallpaper: Prisma.WallpaperGetPayload<{
-		include: {
-			user: true;
-		};
-	}>;
+  wallpaper: Prisma.WallpaperGetPayload<{
+    include: {
+      user: {
+        select: {
+          id: true;
+          name: true;
+          image: true;
+        };
+      };
+      category: true;
+    };
+  }>;
 };
 
 const WallpaperCard = ({
-	wallpaper: { image, category, user, createdAt, id },
+  wallpaper: {
+    image,
+    user,
+    createdAt,
+    id,
+    category: { slug, name },
+    userId,
+  },
 }: WallpaperCardProp) => {
-	const pathname = usePathname();
+  return (
+    <Card>
+      <CardContent>
+        <div className="relative">
+          <Image
+            alt={`${name} wallpaper`}
+            src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
+            height={360}
+            width={640}
+            className="h-84.5 w-150"
+          />
 
-	const isStudio = pathname.startsWith("/studio");
+          <div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
+            <div className="flex gap-3">
+              <Link href={`/${user.id}`}>
+                <Image
+                  src={
+                    user.image ?
+                      `${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${user.image}`
+                    : `https://placehold.co/50x50?text=Avatar`
+                  }
+                  alt={`${user.name}'s avatar`}
+                  height={50}
+                  width={50}
+                  className="rounded-full border-4 border-amber-500"
+                />
+              </Link>
 
-	const [isLoading, setIsLoading] = useState(false);
+              <div className="text-foreground flex gap-3">
+                <div>
+                  <div className="">{user.name}</div>
+                  {slug && name ?
+                    <Link
+                      href={`/category/${slug}`}
+                      className="font-semibold">
+                      #{name}
+                    </Link>
+                  : <span className="text-muted-foreground font-semibold">
+                      #uncategorized
+                    </span>
+                  }
+                </div>
 
-	const wallpaperDeleteHandler = async () => {
-		setIsLoading(true);
+                <div>
+                  {formatDistanceToNow(new Date(createdAt), {
+                    addSuffix: true,
+                    includeSeconds: true,
+                  })}
+                </div>
+              </div>
+            </div>
 
-		await new Promise<void>((r) => setTimeout(r, 1500));
+            <a
+              href={`/api/download?image=${encodeURIComponent(image)}`}
+              className={buttonVariants()}
+              download>
+              Download
+            </a>
+          </div>
 
-		await deleteWallpaper(id, image);
-
-		setIsLoading(false);
-	};
-
-	return (
-		<Card className="">
-			<CardContent>
-				<div className="relative">
-					<Image
-						alt=""
-						src={`/upload/wallpaper/${image}`}
-						height={360}
-						width={640}
-						className="h-[338px] w-[600px]"
-					/>
-
-					<div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
-						<div className="flex gap-3">
-							<Link
-								href={`/${user.id}`}
-								className="">
-								<Image
-									src={`/upload/avatar/${user.image}`}
-									alt=""
-									height={50}
-									width={50}
-									className="rounded-full border-4 border-amber-500"
-								/>
-							</Link>
-							<div className="text-foreground flex gap-3">
-								<div className="">
-									<div className="">{user.name}</div>
-									<div className="font-semibold">#{category}</div>
-								</div>
-								<div>
-									{formatDistanceToNow(new Date(createdAt), {
-										addSuffix: true,
-										includeSeconds: true,
-									})}
-								</div>
-							</div>
-						</div>
-						<div className="">
-							<Button asChild>
-								<a
-									href={`/upload/wallpaper/${image}`}
-									download>
-									Download
-								</a>
-							</Button>
-						</div>
-					</div>
-
-					{isStudio && (
-						<Button
-							onClick={wallpaperDeleteHandler}
-							disabled={isLoading}
-							className="absolute top-0 right-0 z-50 mt-2 mr-2 cursor-pointer bg-red-600 text-white hover:scale-95 hover:bg-red-500">
-							{isLoading ? (
-								<>
-									<Loader2Icon className="animate-spin" /> Deleting...
-								</>
-							) : (
-								<>
-									<Trash2Icon />
-								</>
-							)}
-						</Button>
-					)}
-				</div>
-			</CardContent>
-		</Card>
-	);
+          <DeleteWallpaperButton
+            wallpaperId={id}
+            wallpaperImg={image}
+            wallpaperOwnerId={userId}
+          />
+        </div>
+      </CardContent>
+    </Card>
+  );
 };
 
 export default WallpaperCard;

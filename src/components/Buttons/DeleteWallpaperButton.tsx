@@ -69,8 +69,9 @@ const DeleteWallpaperButton = ({
         render={
           <Button
             disabled={isLoading}
-            className="absolute top-0 right-0 z-50 mt-2 mr-2 cursor-pointer bg-red-600 text-white hover:scale-95 hover:bg-red-500">
-            <Trash2Icon /> Delete
+            className="absolute top-0 right-0 z-10 mt-2 mr-2 cursor-pointer bg-red-600 text-white hover:scale-95 hover:bg-red-500"
+            size={"icon"}>
+            <Trash2Icon />
           </Button>
         }></DialogTrigger>
       <DialogContent>

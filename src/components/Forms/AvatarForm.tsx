@@ -64,7 +64,7 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
             alt="User avatar"
             width={240}
             height={240}
-            className="aspect-square h-60 w-60 rounded-full object-cover"
+            className="aspect-square h-28 w-28 rounded-full object-cover ring-4 ring-amber-500/40 sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-60 lg:w-60"
           />
         )}
 
@@ -74,7 +74,7 @@ const AvatarForm = ({ imgId }: AvatarFormProps) => {
             alt="Uploaded avatar"
             width={240}
             height={240}
-            className="aspect-square h-60 w-60 rounded-full object-cover"
+            className="aspect-square h-28 w-28 rounded-full object-cover ring-4 ring-amber-500/40 sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-60 lg:w-60"
           />
         )}
       </div>

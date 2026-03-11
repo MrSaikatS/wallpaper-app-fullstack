@@ -26,10 +26,10 @@ const Page = async () => {
   });
 
   return (
-    <section className="grid h-[90dvh] place-items-center">
-      <Card>
+    <section className="grid place-items-center">
+      <Card className="w-full sm:w-sm md:w-md xl:w-xl">
         <CardHeader>
-          <CardTitle className="text-center text-3xl font-semibold">
+          <CardTitle className="text-center text-xl font-semibold sm:text-2xl md:text-3xl">
             Create Wallpaper
           </CardTitle>
         </CardHeader>
@@ -38,7 +38,7 @@ const Page = async () => {
           <WallpaperForm categoryArray={allCategory} />
         </CardContent>
 
-        <CardFooter className="flex items-center justify-center gap-2 text-xl font-light">
+        <CardFooter className="flex items-center justify-center gap-2 text-sm font-light sm:text-lg md:text-xl">
           Missing a category?
           <CreateCategoryForm />
         </CardFooter>

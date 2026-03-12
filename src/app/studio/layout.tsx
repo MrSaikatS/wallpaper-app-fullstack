@@ -10,7 +10,7 @@ const StudioLayout = ({ children }: StudioLayoutProps) => {
     <>
       <Header />
 
-      <main className="mx-auto max-w-7xl px-6 py-3">{children}</main>
+      <main className="mx-auto mt-16 max-w-7xl px-4 py-3">{children}</main>
     </>
   );
 };

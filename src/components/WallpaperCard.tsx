@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Prisma } from "../../generated/prisma/client";
 import DeleteWallpaperButton from "./Buttons/DeleteWallpaperButton";
-import { buttonVariants } from "./shadcnui/button";
+import { Button } from "./shadcnui/button";
 import { Card, CardContent } from "./shadcnui/card";
 
 type WallpaperCardProp = {
@@ -37,18 +37,21 @@ const WallpaperCard = ({
   return (
     <Card>
       <CardContent>
-        <div className="relative">
+        <div className="relative aspect-video w-full">
           <Image
             alt={`${name} wallpaper`}
             src={`${clientEnv.NEXT_PUBLIC_SPACES_CDN_ENDPOINT}/${image}`}
             height={360}
             width={640}
-            className="h-84.5 w-150"
+            sizes=""
+            className="object-cover"
           />
 
-          <div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-2 backdrop-blur-sm">
+          <div className="border-foreground/50 bg-background/50 absolute right-0 bottom-0 left-0 flex w-full items-center justify-between border-t px-4 py-1 backdrop-blur-sm md:py-2">
             <div className="flex gap-3">
-              <Link href={`/${user.id}`}>
+              <Link
+                href={`/${user.id}`}
+                className="flex items-center">
                 <Image
                   src={
                     user.image ?
@@ -56,28 +59,28 @@ const WallpaperCard = ({
                     : `https://placehold.co/50x50?text=Avatar`
                   }
                   alt={`${user.name}'s avatar`}
-                  height={50}
-                  width={50}
-                  className="rounded-full border-4 border-amber-500"
+                  height={30}
+                  width={30}
+                  className="rounded-full border-2 border-amber-500 sm:h-[50px] sm:w-[50px] sm:border-4"
                 />
               </Link>
 
               <div className="text-foreground flex gap-3">
                 <div>
-                  <div className="">{user.name}</div>
+                  <div className="text-xs sm:text-sm">{user.name}</div>
                   {slug && name ?
                     <Link
                       href={`/category/${slug}`}
-                      className="font-semibold">
+                      className="text-xs font-semibold sm:text-sm">
                       #{name}
                     </Link>
-                  : <span className="text-muted-foreground font-semibold">
+                  : <span className="text-muted-foreground text-xs font-semibold sm:text-sm">
                       #uncategorized
                     </span>
                   }
                 </div>
 
-                <div>
+                <div className="text-xs sm:text-sm">
                   {formatDistanceToNow(new Date(createdAt), {
                     addSuffix: true,
                     includeSeconds: true,
@@ -85,13 +88,15 @@ const WallpaperCard = ({
                 </div>
               </div>
             </div>
-
-            <a
-              href={`/api/download?image=${encodeURIComponent(image)}`}
-              className={buttonVariants()}
-              download>
-              Download
-            </a>
+            <Button
+              size={"sm"}
+              className={"text-xs"}>
+              <a
+                href={`/api/download?image=${encodeURIComponent(image)}`}
+                download>
+                Download
+              </a>
+            </Button>
           </div>
 
           <DeleteWallpaperButton

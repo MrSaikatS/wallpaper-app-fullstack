@@ -28,10 +28,10 @@ const Page = async () => {
   const { user } = userDetails;
 
   return (
-    <section className="flex h-[80dvh] flex-col items-center justify-center gap-4">
-      <Card className="w-sm">
+    <section className="flex flex-col items-center justify-center gap-4">
+      <Card className="w-full sm:w-sm md:w-md xl:w-xl">
         <CardHeader>
-          <CardTitle className="text-center text-3xl font-semibold">
+          <CardTitle className="text-center text-xl font-semibold sm:text-2xl md:text-3xl">
             Profile Picture
           </CardTitle>
         </CardHeader>
@@ -41,9 +41,9 @@ const Page = async () => {
         </CardContent>
       </Card>
 
-      <Card className="w-sm">
+      <Card className="w-full sm:w-sm md:w-md xl:w-xl">
         <CardHeader>
-          <CardTitle className="text-center text-3xl font-semibold">
+          <CardTitle className="text-center text-xl font-semibold sm:text-2xl md:text-3xl">
             Profile Details
           </CardTitle>
         </CardHeader>

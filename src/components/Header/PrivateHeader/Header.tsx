@@ -1,15 +1,13 @@
-import LogoutButton from "@/components/Buttons/LogoutButton";
-import ThemeToggleButton from "@/components/ThemeToggleButton";
 import Link from "next/link";
-import { Suspense } from "react";
-import NavProfileImg from "./NavProfileImg";
+import DesktopNav from "./DesktopNav";
+import MobileNav from "./MobileNav";
 
 const Header = () => {
   return (
     <header
-      className="border-b shadow"
+      className="fixed top-0 right-0 left-0 z-50 border-b shadow backdrop-blur-2xl"
       aria-label="app-header">
-      <div className="container mx-auto flex items-center justify-between px-6 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         <Link href={"/"}>
           <h1
             className="text-2xl font-semibold"
@@ -18,30 +16,14 @@ const Header = () => {
           </h1>
         </Link>
 
-        <nav className="flex items-center gap-4">
-          <Link
-            href={"/studio"}
-            className="hover:underline">
-            Dashboard
-          </Link>
-          <Link
-            href={"/studio/create"}
-            className="hover:underline">
-            Create
-          </Link>
-          <Link
-            href={"/studio/profile"}
-            aria-label="Profile">
-            <Suspense
-              fallback={
-                <div className="bg-muted h-8.75 w-8.75 animate-pulse rounded-full"></div>
-              }>
-              <NavProfileImg />
-            </Suspense>
-          </Link>
+        <nav className="flex items-center">
+          <div className="hidden md:flex">
+            <DesktopNav />
+          </div>
 
-          <LogoutButton />
-          <ThemeToggleButton />
+          <div className="md:hidden">
+            <MobileNav />
+          </div>
         </nav>
       </div>
     </header>

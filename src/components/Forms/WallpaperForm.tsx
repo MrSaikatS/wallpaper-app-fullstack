@@ -98,7 +98,7 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
           alt="Avatar Image"
           width={640}
           height={360}
-          className="aspect-video h-90 w-160 rounded-sm object-cover"
+          className="aspect-video w-full rounded-xl object-cover"
         />
       )}
 
@@ -109,15 +109,16 @@ const WallpaperForm = ({ categoryArray }: WallpaperFormProps) => {
           alt={file.name}
           width={640}
           height={360}
-          className="aspect-video h-90 w-160 rounded-sm object-cover"
+          className="aspect-video w-full rounded-xl object-cover"
         />
       ))}
 
       <div className="mt-4 grid">
         <Button
-          className="cursor-pointer"
+          className="cursor-pointer text-xs sm:text-sm"
           variant={"outline"}
-          onClick={openFilePicker}>
+          onClick={openFilePicker}
+          size={"sm"}>
           <ImagesIcon className="mr-2 h-4 w-4" />
           Choose Image
         </Button>

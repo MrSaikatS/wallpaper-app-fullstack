@@ -55,7 +55,7 @@ const Page = async ({ searchParams }: PageProps) => {
 
   return (
     <>
-      <section className="grid grid-cols-2 place-items-center gap-4">
+      <section className="grid place-items-center gap-4 md:grid-cols-2">
         {userWallpapers.length === 0 ?
           <p className="col-span-full text-center text-gray-500">
             No wallpapers found 🙂
@@ -68,12 +68,11 @@ const Page = async ({ searchParams }: PageProps) => {
           ))
         }
       </section>
-      <div className="fixed right-0 bottom-0 left-0">
-        <PaginationQuery
-          pageNumber={pageNumber}
-          totalPage={totalPage}
-        />
-      </div>
+
+      <PaginationQuery
+        pageNumber={pageNumber}
+        totalPage={totalPage}
+      />
     </>
   );
 };

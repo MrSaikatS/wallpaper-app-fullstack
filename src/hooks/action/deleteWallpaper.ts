@@ -3,13 +3,14 @@
 import prisma from "@/lib/prisma";
 import s3Client from "@/lib/s3Client";
 import { revalidatePath } from "next/cache";
+import { serverEnv } from "@/lib/env/serverEnv";
 
 const deleteWallpaper = async (id: string, imageName: string) => {
   //
   try {
     // await rm(`./public/upload/wallpaper/${imageName}`);
     await s3Client.deleteObject({
-      Bucket: "wps3",
+      Bucket: serverEnv.SPACES_BUCKET_NAME,
       Key: imageName,
     });
 
